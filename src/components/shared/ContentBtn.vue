@@ -3,7 +3,7 @@ const {
     width,
 } = defineProps<{
     width: number;
-    height: number;
+    // height: number;
 }>();
 
 </script>
@@ -15,5 +15,5 @@ const {
 </template>
 
 <style scoped>
-.content-btn--defualt {}
+/* .content-btn--defualt {} */
 </style>

@@ -5,7 +5,7 @@ import Btn from "@/components/features/Btn.vue"
   <div>
     <h1>This is an about page</h1>
   </div>
-  <Btn class="test">123</Btn>
+  <!-- <Btn class="test">123</Btn> -->
 </template>
 
 <style></style>
