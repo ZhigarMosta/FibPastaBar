@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import Btn from "@/components/features/Btn.vue"
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <Btn class="btn">
+      sdf
+    </Btn>
   </main>
 </template>

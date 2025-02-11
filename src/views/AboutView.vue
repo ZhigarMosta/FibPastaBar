@@ -1,15 +1,11 @@
+<script setup lang="ts">
+import Btn from "@/components/features/Btn.vue"
+</script>
 <template>
-  <div class="about">
+  <div>
     <h1>This is an about page</h1>
   </div>
+  <Btn class="test">123</Btn>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
+<style></style>
