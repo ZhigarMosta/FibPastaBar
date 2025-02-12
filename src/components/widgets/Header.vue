@@ -1,30 +1,22 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
+<script setup lang="ts"></script>
 <template>
-    <header>
-        <div class="wrapper">
-            <nav>
-                <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/about">About</RouterLink>
-            </nav>
+    <div class="container">
+        <img class="logo" src="" alt="logo">
+        <div class="wrapper--inf">
+            <p class="inf--delivery">Доставка пасты <span class="inf--sity">Москва</span></p>
+            <div class="container--inf-yandex">
+                <img class="yandex-food" src="" alt="">
+                <div class="circle"></div>
+                <div class="stars-counter">4.8</div>
+                <img class="star" src="" alt="">
+                <p></p>
+            </div>
+            <div class="container--inf-time-delivery">
+                <p class="time-delivery"></p>
+                <div class="circle"></div>
+                <p class="time-delivery"></p>
+            </div>
         </div>
-    </header>
-    <RouterView />
+    </div>
 </template>
-
-<style scoped>
-nav a.router-link-exact-active {
-    color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-    background-color: transparent;
-}
-
-nav a {
-    padding: 0 1rem;
-}
-</style>
+<style scoped></style>
