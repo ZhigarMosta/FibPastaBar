@@ -104,7 +104,9 @@ import ContentBtn from '../shared/ContentBtn.vue';
     src: url("../../assets/fonts/Montserrat-SemiBold.ttf") format("ttf");
 }
 
-
+.menu--text.router-link-exact-active {
+    color: var(--gray-dark);
+}
 
 .login--btn {
     color: var(--gray);
@@ -326,6 +328,10 @@ header {
 
 .menu-button-container {
     display: none;
+}
+
+.menu--text.router-link-exact-active {
+    color: var(--gray-dark);
 }
 
 .menu--text {
