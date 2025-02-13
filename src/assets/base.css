@@ -11,6 +11,7 @@
   --light-black:#0E0C0D;
   --red:#E50F17;
   --black-default:#000;
+  --pink:#FF2E65;
 }
 
 @media (prefers-color-scheme: dark) {
