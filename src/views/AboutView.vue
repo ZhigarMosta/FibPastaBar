@@ -2,7 +2,8 @@
 import Btn from "@/components/features/Btn.vue"
 import ProductCard from "@/components/features/ProductCard.vue";
 import ProductNew from "@/components/features/ProductNew.vue";
-import ContentBtn from "@/components/shared/ContentBtn.vue" 
+import ContentBtn from "@/components/shared/ContentBtn.vue"
+import Footer from "@/components/widgets/Footer.vue";
 </script>
 <template>
   <Btn view="btn-type--pizza">
@@ -100,6 +101,6 @@ import ContentBtn from "@/components/shared/ContentBtn.vue"
     :price="500" />
   <br />
   <ProductNew img="/src/assets/gag/pizza.png" :price="500" name-pizza="Карбонара" />
+  <!-- <Footer /> -->
 </template>
-
 <style></style>

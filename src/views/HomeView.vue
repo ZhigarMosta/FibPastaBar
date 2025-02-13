@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import Btn from "@/components/features/Btn.vue"
+import Footer from "@/components/widgets/Footer.vue";
 </script>
 
 <template>
   <main>
-    <Btn class="btn">
-      sdf
-    </Btn>
+    <Footer/>
   </main>
 </template>
