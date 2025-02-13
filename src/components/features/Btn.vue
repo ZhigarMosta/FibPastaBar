@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 const {
     view,
@@ -214,5 +214,19 @@ switch (view) {
 
 .btn-type--call:hover .btn-call--text {
     color: var(--black);
+}
+
+@media (max-width:768px) {
+    .btn-type--basket {
+        background-color: var(--white);
+    }
+
+    .btn-type--basket:hover .btn-basket--text div p {
+        color: var(--gray);
+    }
+
+    .btn-type--basket:hover .btn-basket--text div p+div {
+        background-color: var(--gray);
+    }
 }
 </style>

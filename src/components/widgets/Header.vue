@@ -242,6 +242,7 @@ import ContentBtn from '../shared/ContentBtn.vue';
 
 .number-phone--media {
     display: none;
+    text-align: center;
 }
 
 header {
@@ -346,7 +347,7 @@ header {
         height: 2px;
         bottom: -2px;
         left: 0;
-        background-color: #a259ff;
+        background-color: var(--gray);
         transition: width 0.3s;
     }
 
@@ -355,12 +356,8 @@ header {
     }
 
     &:hover {
-        color: #a259ff;
+        color: var(--gray);
     }
-}
-
-.active {
-    text-shadow: 6px 5px 4px rgba(162, 89, 255, 0.8);
 }
 
 #menu-toggle:checked~.head .menu-button-container .menu-button::before {
@@ -517,6 +514,7 @@ header {
 
     .bottom-header--basket {
         display: block;
+        margin-bottom: 30px;
     }
 
     .media-block--container {
