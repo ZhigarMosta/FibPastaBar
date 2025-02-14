@@ -253,7 +253,7 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    max-width: 1440px;
+    max-width: 1110px;
     background-color: var(--white);
 }
 
@@ -273,13 +273,12 @@ header {
 }
 
 .wrapper_header {
-    width: 1440px;
+    width: 1110px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     gap: 20px;
 
-    padding: 0 15px;
     margin-top: 20px;
 }
 
@@ -381,7 +380,7 @@ header {
     transform: rotate(-405deg);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1110px) {
 
     .login-and-backet--container {
         max-width: 50px;
@@ -490,6 +489,7 @@ header {
         width: 1135px;
         gap: 50px;
         margin-top: 20px;
+        padding: 0 15px;
     }
 
     .menu-button-container {

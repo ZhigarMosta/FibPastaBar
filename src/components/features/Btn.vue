@@ -171,7 +171,15 @@ switch (view) {
     height: 52px;
     border-radius: 13px;
     border: 2px solid var(--light-blue);
+    transition: border 0.3s ease-in-out;
 }
+
+.btn-type--footer:hover {
+    height: 52px;
+    border-radius: 13px;
+    border: 2px solid var(--yellow);
+}
+
 
 .btn-look--text {
     color: var(--gray-dark);
@@ -227,6 +235,11 @@ switch (view) {
 
     .btn-type--basket:hover .btn-basket--text div p+div {
         background-color: var(--gray);
+    }
+
+    .btn-type--call {
+        width: 131px;
+        height: 32px;
     }
 }
 </style>
