@@ -253,7 +253,6 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    max-width: 1110px;
     background-color: var(--white);
 }
 
@@ -486,7 +485,7 @@ header {
     .wrapper_header {
         display: flex;
         justify-content: center;
-        width: 1135px;
+        width: 1100px;
         gap: 50px;
         margin-top: 20px;
         padding: 0 15px;

@@ -118,6 +118,8 @@ import ContentBtn from '../shared/ContentBtn.vue';
 }
 
 footer {
+    max-width: 1110px;
+    margin: 0 auto;
     margin-top: 142px;
 }
 
