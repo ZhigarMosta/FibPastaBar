@@ -104,6 +104,7 @@ import ContentBtn from '../shared/ContentBtn.vue';
                 </div>
             </div>
         </div>
+        <img class="background" src="/src/assets/img/background/footer.png" alt="background">
     </footer>
 </template>
 <style scoped>
@@ -115,6 +116,20 @@ import ContentBtn from '../shared/ContentBtn.vue';
 @font-face {
     font-family: "Montserrat-SemiBold";
     src: url("../../assets/fonts/Montserrat-SemiBold.ttf") format("ttf");
+}
+
+.social-network--wrapper,
+.bottom-block--container {
+    z-index: 200;
+}
+
+.background {
+    display: block;
+    position: absolute;
+    right: 0;
+    /* bottom: 0; */
+    margin-top: -70px;
+    z-index: 1;
 }
 
 footer {
