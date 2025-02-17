@@ -13,7 +13,6 @@
   --black-default:#000;
   --pink:#FF2E65;
 }
-
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);

@@ -87,7 +87,6 @@ import ContentBtn from '../shared/ContentBtn.vue';
             </div>
         </div>
     </header>
-    <RouterView />
 </template>
 <style scoped>
 @font-face {

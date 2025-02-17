@@ -120,7 +120,7 @@ import ContentBtn from '../shared/ContentBtn.vue';
 
 .social-network--wrapper,
 .bottom-block--container {
-    z-index: 200;
+    z-index: 2;
 }
 
 .background {
@@ -135,7 +135,6 @@ import ContentBtn from '../shared/ContentBtn.vue';
 footer {
     max-width: 1110px;
     margin: 0 auto;
-    margin-top: 142px;
 }
 
 .media-phone--container {
@@ -381,6 +380,12 @@ footer {
     .question-text {
         font-size: 12px;
     }
+
+    .background {
+        width: 176px;
+        margin-top: -55px;
+        margin-right: 115px;
+    }
 }
 
 @media (max-width:768px) {
@@ -490,6 +495,10 @@ footer {
 
     .social-net-work-and-information--container {
         gap: 8px;
+    }
+
+    .background {
+        display: none;
     }
 }
 </style>
