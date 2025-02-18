@@ -31,7 +31,7 @@ const {
     src: url("../../assets/fonts/Montserrat-ExtraBold.ttf") format("ttf");
 }
 
-.product--container {
+.product-card--container {
     width: 255px;
     height: 99px;
     border-radius: 12px;
@@ -52,12 +52,12 @@ const {
     gap: 4px;
 }
 
-.product--img {
+.product-card---img {
     width: 71.0px;
     height: 71.0px;
 }
 
-.product--name {
+.product-card--name {
     color: var(--black-default);
     font-family: "Montserrat-Bold", sans-serif;
     font-size: 18px;
@@ -66,7 +66,7 @@ const {
     line-height: normal;
 }
 
-.product--price {
+.product-card--price {
     color: var(--yellow);
     font-family: "Montserrat-ExtraBold", sans-serif;
     font-size: 16px;

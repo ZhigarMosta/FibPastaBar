@@ -36,7 +36,7 @@ const styleText = ref(`${view}--text`);
     z-index: 2;
 }
 
-.pizza {
+.pizza--btn {
     width: 123px;
     height: 36px;
     border-radius: 8px;
@@ -53,7 +53,7 @@ const styleText = ref(`${view}--text`);
     transition: color 0.3s ease-in-out;
 }
 
-.pizza:hover .pizza--text {
+.pizza--btn:hover .pizza--text {
     color: var(--gray-dark);
 }
 

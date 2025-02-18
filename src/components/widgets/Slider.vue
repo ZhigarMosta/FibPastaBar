@@ -98,7 +98,7 @@ const autoplay = emblaApi?.value?.plugins()?.autoplay
     </section>
 </template>
 <style scoped>
-.product--img {
+.product-card---img {
     min-width: 540px;
 }
 

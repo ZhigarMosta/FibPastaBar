@@ -19,16 +19,16 @@ const {
 </script>
 
 <template>
-    <div class="product--container">
+    <div class="product-card--container">
         <div v-if="isNew" class="new">
             NEW
         </div>
-        <img class="product--img" :src="img" alt="product">
-        <p class="product--name">{{ productName }}</p>
-        <p class="product--desc">{{ desc }}</p>
-        <div class="product--price-container">
-            <p class="product--price">от {{ price }} ₽</p>
-            <div class="product--btn-container">
+        <img class="product-card---img" :src="img" alt="product">
+        <p class="product-card--name">{{ productName }}</p>
+        <p class="product-card--desc">{{ desc }}</p>
+        <div class="product-card--price-container">
+            <p class="product-card--price">от {{ price }} ₽</p>
+            <div class="product-card--btn-container">
                 <Btn view="pizza">
                     <ContentBtn>В Корзину</ContentBtn>
                 </Btn>
@@ -54,7 +54,7 @@ const {
     src: url("../../assets/fonts/Montserrat-Medium.ttf") format("ttf");
 }
 
-.product--container {
+.product-card--container {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -71,21 +71,21 @@ const {
     margin: 0 0 390px 180px;
 }
 
-.product--img {
+.product-card---img {
     width: 253px;
     height: 253px;
 
     margin-bottom: 8px;
 }
 
-.product--price-container {
+.product-card--price-container {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.product--name {
+.product-card--name {
     color: var(--v1-gray-little-dark);
     font-family: "Montserrat-ExtraBold", sans-serif;
     font-size: 24px;
@@ -96,7 +96,7 @@ const {
     margin-bottom: 14px;
 }
 
-.product--desc {
+.product-card--desc {
     color: var(--v2-gray-little-dark);
     font-family: "Montserrat-Medium", sans-serif;
     font-size: 13px;
@@ -107,7 +107,7 @@ const {
     margin-bottom: 25px;
 }
 
-.product--price {
+.product-card--price {
     color: var(--black);
     font-family: "Montserrat-Bold", sans-serif;
     font-size: 22px;
@@ -116,7 +116,7 @@ const {
     line-height: 19px;
 }
 
-.product--btn-container {
+.product-card--btn-container {
     width: 123px;
 }
 </style>
