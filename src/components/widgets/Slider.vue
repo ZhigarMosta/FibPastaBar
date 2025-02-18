@@ -203,6 +203,10 @@ watch(selectedScrollIndex, () => {
         align-items: center;
         justify-content: center;
     }
+
+    .embla__slide__number {
+        transform: scale(1);
+    }
 }
 
 .embla_slide__active {

@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import Slider from '@/components/features/Slider.vue';
+import YandexMap from '@/components/shared/YandexMap.vue';
+import Slider from '@/components/widgets/Slider.vue';
+
 </script>
 
 <template>
   <main class="main">
     <div class="slider--container">
       <Slider />
+    </div>
+    <div class="yandex-map--container">
+      <YandexMap />
     </div>
   </main>
 </template>
