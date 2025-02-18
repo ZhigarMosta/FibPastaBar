@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref, watch, watchEffect } from "vue";
 import emblaCarouselVue from "embla-carousel-vue";
+import Autoplay from "embla-carousel-autoplay";
 const canScrollPrev = ref(false);
 const canScrollNext = ref(false);
 const options = { loop: true, dragFree: true };
-const [emblaRef, emblaApi] = emblaCarouselVue(options);
+const [emblaRef, emblaApi] = emblaCarouselVue(options, [
+    Autoplay({ playOnInit: true, delay: 10000 })
+]);
 
 function scrollNext() {
     emblaApi?.value?.scrollNext();
@@ -47,20 +50,9 @@ const itemsDuableElement = ref<Array<itemsDuableEleventInterface>>(transformItem
 const selectedScrollIndex = ref(0)
 const innerWidth = ref(window.innerWidth)
 
-const timer = ref();
-const startTimer = () => {
-    if (timer.value) {
-        clearInterval(timer.value);
-    }
 
-    timer.value = setInterval(() => {
-        emblaApi?.value?.scrollNext();
-    }, 10000);
-};
-startTimer();
-watch(selectedScrollIndex, () => {
-    startTimer();
-});
+const autoplay = emblaApi?.value?.plugins()?.autoplay
+
 
 </script>
 <template>
@@ -106,7 +98,7 @@ watch(selectedScrollIndex, () => {
     </section>
 </template>
 <style scoped>
-.img {
+.product--img {
     min-width: 540px;
 }
 
@@ -176,7 +168,7 @@ watch(selectedScrollIndex, () => {
         gap: 20px;
     }
 
-    .img {
+    .new--img {
         min-width: 354.5px;
     }
 }

@@ -51,10 +51,16 @@ export default {
     },
 };
 </script>
-
 <style scoped>
 .yandex-map {
     width: 100%;
-    height: 322 px;
+    max-width: 1110px;
+    height: 322px;
+}
+
+@media (max-width:1110px) {
+    .yandex-map {
+        padding: 0 15px;
+    }
 }
 </style>

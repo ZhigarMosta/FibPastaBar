@@ -4,32 +4,32 @@ import Btn from './Btn.vue';
 const {
     isNew,
     img,
-    namePizza,
-    dec,
+    productName,
+    desc,
     price
 
 } = defineProps<{
     isNew: boolean,
     img: string,
-    namePizza: string,
-    dec: string,
+    productName: string,
+    desc: string,
     price: number
 }>();
 
 </script>
 
 <template>
-    <div class="container">
+    <div class="product--container">
         <div v-if="isNew" class="new">
             NEW
         </div>
-        <img class="img" :src="img" alt="pizza">
-        <p class="name-pizza">{{ namePizza }}</p>
-        <p class="dec-pizza">{{ dec }}</p>
-        <div class="price--container">
-            <p class="price">от {{ price }} ₽</p>
-            <div class="container--btn">
-                <Btn view="btn-type--pizza">
+        <img class="product--img" :src="img" alt="product">
+        <p class="product--name">{{ productName }}</p>
+        <p class="product--desc">{{ desc }}</p>
+        <div class="product--price-container">
+            <p class="product--price">от {{ price }} ₽</p>
+            <div class="product--btn-container">
+                <Btn view="pizza">
                     <ContentBtn>В Корзину</ContentBtn>
                 </Btn>
             </div>
@@ -54,7 +54,7 @@ const {
     src: url("../../assets/fonts/Montserrat-Medium.ttf") format("ttf");
 }
 
-.container {
+.product--container {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -71,21 +71,21 @@ const {
     margin: 0 0 390px 180px;
 }
 
-.img {
+.product--img {
     width: 253px;
     height: 253px;
 
     margin-bottom: 8px;
 }
 
-.price--container {
+.product--price-container {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.name-pizza {
+.product--name {
     color: var(--v1-gray-little-dark);
     font-family: "Montserrat-ExtraBold", sans-serif;
     font-size: 24px;
@@ -96,7 +96,7 @@ const {
     margin-bottom: 14px;
 }
 
-.dec-pizza {
+.product--desc {
     color: var(--v2-gray-little-dark);
     font-family: "Montserrat-Medium", sans-serif;
     font-size: 13px;
@@ -107,7 +107,7 @@ const {
     margin-bottom: 25px;
 }
 
-.price {
+.product--price {
     color: var(--black);
     font-family: "Montserrat-Bold", sans-serif;
     font-size: 22px;
@@ -116,7 +116,7 @@ const {
     line-height: 19px;
 }
 
-.container--btn {
+.product--btn-container {
     width: 123px;
 }
 </style>

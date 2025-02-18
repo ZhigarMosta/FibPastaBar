@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router';
 import Btn from '../features/Btn.vue';
 import ContentBtn from '../shared/ContentBtn.vue';
+
 </script>
 <template>
     <header>
@@ -16,7 +17,7 @@ import ContentBtn from '../shared/ContentBtn.vue';
                                 <p class="number-phone--text">
                                     8 499 391-84-49
                                 </p>
-                                <Btn view="btn-type--basket">
+                                <Btn view="basket">
                                     <ContentBtn view="content-type--basket">
                                         <template #text>
                                             Корзина
@@ -52,7 +53,7 @@ import ContentBtn from '../shared/ContentBtn.vue';
                         </div>
                     </div>
                     <div class="number-phone--container">
-                        <Btn view="btn-type--call">
+                        <Btn view="call">
                             <ContentBtn>Заказать звонок</ContentBtn>
                         </Btn>
                         <p class="number-phone--text">
@@ -72,7 +73,7 @@ import ContentBtn from '../shared/ContentBtn.vue';
                         <p class="number-phone--text number-phone--media">
                             8 499 391-84-49
                         </p>
-                        <Btn class="bottom-header--basket" view="btn-type--basket">
+                        <Btn class="bottom-header--basket" view="basket">
                             <ContentBtn view="content-type--basket">
                                 <template #text>
                                     Корзина
@@ -399,7 +400,7 @@ header {
         margin-bottom: 20px;
     }
 
-    .bottom-header--basket {
+    .bottom-header--basket--btn {
         display: none;
     }
 
@@ -517,7 +518,7 @@ header {
         flex-direction: column;
     }
 
-    .bottom-header--basket {
+    .bottom-header--basket--btn {
         display: block;
         margin-bottom: 30px;
     }
@@ -552,7 +553,7 @@ header {
         font-size: 18px;
     }
 
-    .bottom-header--basket {
+    .bottom-header--basket--btn {
         display: flex;
         align-items: center;
         margin-top: 10px;

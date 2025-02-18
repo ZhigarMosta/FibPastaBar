@@ -17,15 +17,23 @@ import Slider from '@/components/widgets/Slider.vue';
 <style scoped>
 .main {
   margin-top: 142px;
+  height: calc(100vh - 342px + 142px);
 }
 
 .slider--container {
   margin-top: 172px;
 }
 
+.yandex-map--container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
 @media (max-width:1110px) {
   .main {
     margin-top: 80px;
+    height: calc(100vh - 342px + 80px);
   }
 
   .slider--container {

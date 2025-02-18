@@ -1,22 +1,22 @@
 <script setup lang="ts">
 const {
     img,
-    namePizza,
+    ProductName,
     price,
 
 } = defineProps<{
     img: string,
-    namePizza: string,
+    ProductName: string,
     price: number,
 }>();
 </script>
 
 <template>
-    <button class="container">
-        <img class="img" :src="img" alt="pizza">
-        <div class="container--pizza">
-            <p class="pizza--name">{{ namePizza }}</p>
-            <p class="pizza--price">от {{ price }} ₽</p>
+    <button class="new--container">
+        <img class="new--img" :src="img" alt="pizza">
+        <div class="new--product-container">
+            <p class="product--name">{{ ProductName }}</p>
+            <p class="product--price">от {{ price }} ₽</p>
         </div>
     </button>
 </template>
@@ -31,7 +31,7 @@ const {
     src: url("../../assets/fonts/Montserrat-ExtraBold.ttf") format("ttf");
 }
 
-.container {
+.product--container {
     width: 255px;
     height: 99px;
     border-radius: 12px;
@@ -46,18 +46,18 @@ const {
     padding-left: 17px;
 }
 
-.container--pizza {
+.new--product-container {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.img {
+.product--img {
     width: 71.0px;
     height: 71.0px;
 }
 
-.pizza--name {
+.product--name {
     color: var(--black-default);
     font-family: "Montserrat-Bold", sans-serif;
     font-size: 18px;
@@ -66,7 +66,7 @@ const {
     line-height: normal;
 }
 
-.pizza--price {
+.product--price {
     color: var(--yellow);
     font-family: "Montserrat-ExtraBold", sans-serif;
     font-size: 16px;

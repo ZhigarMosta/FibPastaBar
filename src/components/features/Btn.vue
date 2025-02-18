@@ -4,39 +4,14 @@ import { ref } from 'vue';
 const {
     view,
 } = defineProps<{
-    view: "btn-type--pizza" | "btn-type--basket" | "btn-type--stock" | "btn-type--addres-and-order" | "btn-type--send" | "btn-type--look" | "btn-type--call" | "btn-type--footer";
+    view: "pizza" | "basket" | "stock" | "addres-or-order" | "send" | "look" | "call" | "footer";
 }>();
+const styleBtn = ref(`${view}--btn`)
+const styleText = ref(`${view}--text`);
 
-const styleText = ref("");
-switch (view) {
-    case 'btn-type--pizza':
-        styleText.value = "btn-pizza-and-stock--text"
-        break;
-    case "btn-type--basket":
-        styleText.value = "btn-basket--text"
-        break;
-    case "btn-type--stock":
-        styleText.value = "btn-pizza-and-stock--text"
-        break;
-    case "btn-type--send":
-        styleText.value = "btn-send--text"
-        break;
-    case "btn-type--addres-and-order":
-        styleText.value = "btn-addres-and-order--text"
-        break;
-    case "btn-type--footer":
-        styleText.value = "btn-footer--text"
-        break;
-    case "btn-type--call":
-        styleText.value = "btn-call--text"
-        break;
-    case "btn-type--look":
-        styleText.value = "btn-look--text"
-        break;
-}
 </script>
 <template>
-    <button :class="view" class="container">
+    <button :class="styleBtn" class="container">
         <div :class="styleText">
             <slot></slot>
         </div>
@@ -61,14 +36,14 @@ switch (view) {
     z-index: 2;
 }
 
-.btn-type--pizza {
+.pizza {
     width: 123px;
     height: 36px;
     border-radius: 8px;
     background-color: var(--yellow);
 }
 
-.btn-pizza-and-stock--text {
+.pizza--text {
     color: var(--white);
     font-family: "Montserrat-Bold", sans-serif;
     font-size: 14px;
@@ -78,11 +53,11 @@ switch (view) {
     transition: color 0.3s ease-in-out;
 }
 
-.btn-type--pizza:hover .btn-pizza-and-stock--text {
+.pizza:hover .pizza--text {
     color: var(--gray-dark);
 }
 
-.btn-type--basket {
+.basket--btn {
     width: 160px;
     height: 42px;
     border-radius: 8px;
@@ -90,15 +65,15 @@ switch (view) {
 
 }
 
-.btn-type--basket:hover .btn-basket--text div p {
+.basket--btn:hover .basket--text div p {
     color: var(--white);
 }
 
-.btn-type--basket:hover .btn-basket--text div p+div {
+.basket--btn:hover .basket--text div p+div {
     background-color: var(--white);
 }
 
-.btn-type--stock {
+.stock--btn {
     width: 160.0px;
     height: 48.0px;
     border-radius: 23px;
@@ -106,18 +81,18 @@ switch (view) {
     background-color: var(--yellow);
 }
 
-.btn-type--stock:hover .btn-pizza-and-stock--text {
+.stock--btn:hover .pizza--text {
     color: var(--gray-dark);
 }
 
-.btn-type--addres-and-order {
+.addres-or-order--btn {
     height: 55px;
     border-radius: 8px;
 
     background-color: var(--yellow);
 }
 
-.btn-addres-and-order--text {
+.addres-or-order--text {
     color: var(--black);
     font-family: "Montserrat-ExtraBold", sans-serif;
     font-size: 15px;
@@ -129,15 +104,15 @@ switch (view) {
     transition: color 0.3s ease-in-out;
 }
 
-.btn-type--addres-and-order:hover .btn-addres-and-order--text {
+.addres-or-order--btn:hover .addres-or-order--text {
     color: var(--white);
 }
 
-.btn-type--addres-and-order:hover .btn-addres-and-order--text div p {
+.addres-or-order--btn:hover .addres-or-order--text div p {
     color: var(--white);
 }
 
-.btn-type--send {
+.send--btn {
     width: 176px;
     height: 52px;
     border-radius: 8px;
@@ -154,11 +129,11 @@ switch (view) {
     transition: color 0.3s ease-in-out;
 }
 
-.btn-type--send:hover .btn-send--text {
+.send--btn:hover .btn-send--text {
     color: var(--white);
 }
 
-.btn-footer--text {
+.footer--text {
     font-family: "Montserrat-Bold", sans-serif;
     font-size: 13px;
     font-style: normal;
@@ -168,21 +143,21 @@ switch (view) {
     color: var(--light-black);
 }
 
-.btn-type--footer {
+.footer--btn {
     height: 52px;
     border-radius: 13px;
     border: 2px solid var(--light-blue);
     transition: border 0.3s ease-in-out;
 }
 
-.btn-type--footer:hover {
+.footer--btn:hover {
     height: 52px;
     border-radius: 13px;
     border: 2px solid var(--yellow);
 }
 
 
-.btn-look--text {
+.look--text {
     color: var(--gray-dark);
     font-family: "Montserrat-Bold", sans-serif;
     font-size: 14px;
@@ -192,18 +167,18 @@ switch (view) {
     transition: color 0.3s ease-in-out;
 }
 
-.btn-type--look {
+.look--btn {
     width: 159px;
     height: 45px;
     border-radius: 8px;
     background-color: var(--yellow);
 }
 
-.btn-type--look:hover .btn-look--text {
+.look--btn:hover .look--text {
     color: var(--white);
 }
 
-.btn-call--text {
+.call--text {
     color: var(--gray);
     font-family: "Montserrat-Bold", sans-serif;
     font-size: 14px;
@@ -214,31 +189,31 @@ switch (view) {
     transition: color 0.3s ease-in-out;
 }
 
-.btn-type--call {
+.call--btn {
     width: 180px;
     height: 42px;
     border-radius: 28px;
     background: var(--gray-light);
 }
 
-.btn-type--call:hover .btn-call--text {
+.call--btn:hover .call--text {
     color: var(--black);
 }
 
 @media (max-width:768px) {
-    .btn-type--basket {
+    .basket--btn {
         background-color: var(--white);
     }
 
-    .btn-type--basket:hover .btn-basket--text div p {
+    .basket--btn:hover .basket--text div p {
         color: var(--gray);
     }
 
-    .btn-type--basket:hover .btn-basket--text div p+div {
+    .basket--btn:hover .basket--text div p+div {
         background-color: var(--gray);
     }
 
-    .btn-type--call {
+    .call--btn {
         width: 131px;
         height: 32px;
     }

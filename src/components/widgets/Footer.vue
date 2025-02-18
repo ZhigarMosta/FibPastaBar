@@ -10,7 +10,7 @@ import ContentBtn from '../shared/ContentBtn.vue';
                     <img src="/src/assets/img/png/logo.png" alt="logo">
                     <div class="media-phone--container">
                         <p class="number--text">8 499 391-84-49</p>
-                        <Btn class="btn--call" view="btn-type--call">
+                        <Btn class="btn--call" view="call">
                             <ContentBtn>
                                 Заказать звонок
                             </ContentBtn>
@@ -44,40 +44,40 @@ import ContentBtn from '../shared/ContentBtn.vue';
             <div class="question--container">
                 <p class="question-text">Остались вопросы? А мы всегда на связи:</p>
                 <div class="question-icon--container">
-                    <Btn view="btn-type--footer">
+                    <Btn view="footer">
                         <ContentBtn>
                             <img class="btn-footer--img" src="/src/assets/img/png/viber.png" alt="mastercard">
                         </ContentBtn>
                     </Btn>
-                    <Btn view="btn-type--footer">
+                    <Btn view="footer">
                         <ContentBtn>
                             <img class="btn-footer--img" src="/src/assets/img/png/skype.png" alt="mastercard">
                         </ContentBtn>
                     </Btn>
-                    <Btn view="btn-type--footer">
+                    <Btn view="footer">
                         <ContentBtn>
                             <img class="btn-footer--img" src="/src/assets/img/png/lightning.png" alt="mastercard">
                         </ContentBtn>
                     </Btn>
-                    <Btn view="btn-type--footer">
+                    <Btn view="footer">
                         <ContentBtn>
                             <img class="btn-footer--img" src="/src/assets/img/png/tg.png" alt="mastercard">
                         </ContentBtn>
                     </Btn>
-                    <Btn view="btn-type--footer">
+                    <Btn view="footer">
                         <ContentBtn>
                             <img class="btn-footer--img" src="/src/assets/img/png/facebook.png" alt="mastercard">
                         </ContentBtn>
                     </Btn>
-                    <Btn view="btn-type--footer">
+                    <Btn view="footer">
                         <ContentBtn>
                             <img class="btn-footer--img" src="/src/assets/img/png/vk.png" alt="mastercard">
                         </ContentBtn>
                     </Btn>
                     <div class="question-btn--wrapper">
-                        <Btn class="question-btn" view="btn-type--footer">
+                        <Btn class="question-btn" view="footer">
                             <ContentBtn>
-                                <p id="text" class="btn-footer--text">Написать нам</p>
+                                <p id="text" class="footer--text">Написать нам</p>
                             </ContentBtn>
                         </Btn>
                     </div>
@@ -96,7 +96,7 @@ import ContentBtn from '../shared/ContentBtn.vue';
                 </div>
                 <div class="phone-number--container">
                     <p class="number--text">8 499 391-84-49</p>
-                    <Btn class="btn--call" view="btn-type--call">
+                    <Btn class="btn--call" view="call">
                         <ContentBtn>
                             Заказать звонок
                         </ContentBtn>
@@ -127,7 +127,6 @@ import ContentBtn from '../shared/ContentBtn.vue';
     display: block;
     position: absolute;
     right: 0;
-    /* bottom: 0; */
     margin-top: -70px;
     z-index: 1;
 }

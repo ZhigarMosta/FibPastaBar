@@ -10,4 +10,6 @@ import Header from "@/components/widgets/Header.vue"
   <Footer />
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
