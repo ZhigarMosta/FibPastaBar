@@ -43,12 +43,12 @@ final class Application
         $product = new MicroCollection();
         $product->setHandler(ProductController::class,true);
         $product->setPrefix('/api/product');
-        $product->get('/', 'index');
 
+        $product->get('/', 'index');
         $product->post('/', 'create');
+        $product->delete('/{id}', 'destroy');
 
         $app->mount($product);
-
         $app->notFound(fn()=>$app->response->setStatusCode(404)->send());
     }
 }

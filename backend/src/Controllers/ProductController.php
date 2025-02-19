@@ -6,7 +6,7 @@ namespace App\Controllers;
 
 use App\Models\Products;
 
-class ProductController extends ControllerBase
+class ProductController extends BaceController
 {
     public function index()
     {
@@ -29,31 +29,40 @@ class ProductController extends ControllerBase
                 ]);
                 return;
             }
+            else{
+                $product->assign(["{$key}" => $data[$key]]);
+            }
+        }
+        
+        if(!$this->request->hasFiles()) {
+            echo json_encode([
+                'success' => false,
+                'message' => "img can not be null",
+                'errors' => $product->getMessages()
+            ]);
+            return;
         }
 
-        echo gettype($data['isNew']);
-        $product->assign(['name' => $data['name']]);
-        $product->assign(['isNew' => $data['isNew']]);
-        $product->assign(['desc' => $data['desc']]);
-        $product->assign(['price' => $data['price']]);
-
-        echo json_encode($data['img']);
-
-        // echo json_encode('\n');
+        
         if ($this->request->hasFiles()) {
             [$file] = $this->request->getUploadedFiles();
             
-            if(empty($file)) return;
+            if(empty($file)) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'img can not be null',
+                    'errors' => $product->getMessages()
+                ]);
+                return;
+            }
             
-                echo $file->getName(), ' ', $file->getSize(), '\n';
-
-                $path = 'files/' . time() . $file->getName();
-
-                $file->moveTo(
-                    $path
-                );
+            echo $file->getName(), ' ', $file->getSize(), '\n';
+            $path = 'files/' . time() . $file->getName();
+            $file->moveTo(
+                $path
+            );
                 
-                $product->assign(['img' => $path]);
+            $product->assign(['img' => $path]);
         }
 
         if ($product->create()) {
@@ -70,4 +79,30 @@ class ProductController extends ControllerBase
             ]);
         }
     }
+
+    public function destroy($id)
+    {
+        $product = Products::findFirstById($id);
+        if (!$product) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Product not found',
+            ]);
+            return;
+        }
+    
+        if ($product->delete()) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Product deleted',
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to delete product',
+                'errors' => $product->getMessages()
+            ]);
+        }
+    }
+
 }
