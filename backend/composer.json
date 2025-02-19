@@ -1,0 +1,17 @@
+{
+    "name": "kirill/backend",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ZhigarMosta",
+            "email": "zhigarkirill@gmail.com"
+        }
+    ],
+    "require": {},"require-dev": {
+"phalcon/ide-stubs": "^5.0.0-alpha.5"
+}
+}
