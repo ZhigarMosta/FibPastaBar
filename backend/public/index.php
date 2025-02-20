@@ -8,5 +8,8 @@ try{
     $app->run();
 }
 catch(\Throwable $th){
-    var_dump($th);
+    echo json_encode([
+        'success' => false,
+        'message' => $th->getMessage(),
+    ]);
 }

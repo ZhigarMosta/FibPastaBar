@@ -6,7 +6,7 @@ namespace App\Controllers;
 
 use Phalcon\Mvc\Controller;
 
-class BaceController extends Controller
+class BaseController extends Controller
 {
     
 }

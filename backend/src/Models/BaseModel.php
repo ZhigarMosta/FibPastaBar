@@ -18,4 +18,8 @@ class BaseModel extends Model
     {
         $this->updated_at = date('Y-m-d H:i:s');
     }
+    public function __debugInfo()
+    {
+        return $this->toArray();
+    }
 }

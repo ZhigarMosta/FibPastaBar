@@ -2,7 +2,18 @@
 import { RouterLink } from 'vue-router';
 import Btn from '../features/Btn.vue';
 import ContentBtn from '../shared/ContentBtn.vue';
-
+import { useFetch } from '@/assets/fetch/fetch';
+interface navigationInerface {
+    navigation: [{
+        name: string,
+        anchorRef: string
+    }]
+}
+const { data } = useFetch<navigationInerface>("http://api.local/api/header", {
+    method: "GET",
+    mode: 'cors',
+})
+console.log(data)
 </script>
 <template>
     <header>
@@ -63,10 +74,11 @@ import ContentBtn from '../shared/ContentBtn.vue';
                 </div>
                 <div class="bottom-header--container">
                     <div class="menu--container">
+
+                        <a v-for="i of data?.navigation" class="menu--text" :href='"#" + i.anchorRef'>{{ i.name }}</a>
+
                         <RouterLink class="menu--text" to="/">Home</RouterLink>
                         <RouterLink class="menu--text" to="/about">about</RouterLink>
-                        <RouterLink class="menu--text" to="/">Home</RouterLink>
-                        <RouterLink class="menu--text" to="/">Home</RouterLink>
                     </div>
                     <div class="login-and-backet--container">
                         <button class="login--btn">Войти</button>
