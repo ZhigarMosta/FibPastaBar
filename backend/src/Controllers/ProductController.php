@@ -125,7 +125,8 @@ class ProductController extends BaseController
         }
     }
 
-    public function update(int $id){
+    public function update(int $id)
+    {
         $data = $this->request->getPut();
         $product = Products::findFirst($id);
 
@@ -161,5 +162,33 @@ class ProductController extends BaseController
                 'errors' => $product->getMessages()
             ]);
         }
+    }
+    public function getProductById(){
+        $data = $this->request->getPost();
+        
+        if(empty($data["id"])){
+            echo json_encode([
+                'success' => false,
+                'message' => "id can not be null",
+            ]);
+            return;
+        }
+
+        $product = Products::findFirst($data["id"]);
+
+        if(empty($product)){
+            echo json_encode([
+                'success' => false,
+                'message' => "product not found with if {$data["id"]}",
+            ]);
+            return;
+        }
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'product found',
+            'product' => $product
+        ]);
+        
     }
 }

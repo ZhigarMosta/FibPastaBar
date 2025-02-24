@@ -14,12 +14,12 @@ export function useFetch<T = unknown>(url: MaybeRef<string>, fetchOptions?: Mayb
     }
     fetch(toValue(url), toValue(fetchOptions))
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         return res.json()
       })
       .then((json) => {
         data.value = json;
-        console.log(json)
+        // console.log(json)
         isLoading.value = false;
       })
       .catch((err) => (err));

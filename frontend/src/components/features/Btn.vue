@@ -4,7 +4,7 @@ import { ref } from 'vue';
 const {
     view,
 } = defineProps<{
-    view: "pizza" | "basket" | "stock" | "addres-or-order" | "send" | "look" | "call" | "footer";
+    view: "pizza" | "stock" | "addres-or-order" | "send" | "look" | "call" | "footer";
 }>();
 const styleBtn = ref(`${view}--btn`)
 const styleText = ref(`${view}--text`);
@@ -55,22 +55,6 @@ const styleText = ref(`${view}--text`);
 
 .pizza--btn:hover .pizza--text {
     color: var(--gray-dark);
-}
-
-.basket--btn {
-    width: 160px;
-    height: 42px;
-    border-radius: 8px;
-    background-color: var(--yellow);
-
-}
-
-.basket--btn:hover .basket--text div p {
-    color: var(--white);
-}
-
-.basket--btn:hover .basket--text div p+div {
-    background-color: var(--white);
 }
 
 .stock--btn {
@@ -201,18 +185,6 @@ const styleText = ref(`${view}--text`);
 }
 
 @media (max-width:768px) {
-    .basket--btn {
-        background-color: var(--white);
-    }
-
-    .basket--btn:hover .basket--text div p {
-        color: var(--gray);
-    }
-
-    .basket--btn:hover .basket--text div p+div {
-        background-color: var(--gray);
-    }
-
     .call--btn {
         width: 131px;
         height: 32px;

@@ -9,31 +9,22 @@ use App\Models\Products;
 
 class HeaderController extends BaseController
 {
- public function index()
-{     
-      $categories = Category::find();
-      $categoriesNav = [];
+   public function index()
+   {     
+      $categories = $this->modelsManager->createBuilder()
+         ->from(['c'=>Category::class])
+         ->innerJoin(Products::class,
+         'c.id = p.id_category',
+         'p'
+         )
+         ->columns(["c.id","c.name","c.anchorRef"])
+         ->groupBy("c.name")
+         ->getQuery()
+         ->execute();
 
-      foreach ($categories as $category) {
-         $products = Products::find(
-            [
-               "id_category = :category_id:",
-               "bind" => [
-                  'category_id'=> $category->id,
-               ]
-            ]
-         );
-
-         if($products->count()>0){
-            $categoriesNav[] = [
-               'name' => $category->name,
-               'anchorRef' => $category->anchorRef,
-            ];
-         }
-      }
       echo json_encode([
          'success' => true,
-         'navigation' => $categoriesNav
-     ]);
+         'navigation' => $categories
+      ]);
    }   
 }

@@ -1,24 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 const {
     view = "default",
 } = defineProps<{
-    view?: "content-type--basket" | "content-type--apply-order";
+    view?: "content-type--apply-order";
 }>();
 
 </script>
 
 <template>
-    <div class="container--basket" v-if="view === 'content-type--basket'">
-        <p class="text--basket">
-            <slot name="text"></slot>
-        </p>
-        <div class="line"></div>
-        <p class="text--basket">
-            <slot name="count"></slot>
-        </p>
-    </div>
-    <div class="container--apply-order" v-else-if="view === 'content-type--apply-order'">
+    <div class="container--apply-order" v-if="view === 'content-type--apply-order'">
         <p class="text--apply-order">
             <slot name="text"></slot>
         </p>
@@ -44,25 +34,7 @@ const {
     src: url("../../assets/fonts/Montserrat-ExtraBold.ttf") format("ttf");
 }
 
-.container--basket {
-    width: 111px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.text--basket {
-    color: var(--black);
-    font-family: "Montserrat-Bold", sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 28px;
-    transition: color 0.3s ease-in-out;
-}
-
-.line {
+.backet--line {
     width: 2px;
     height: 23px;
     border-radius: 5px;

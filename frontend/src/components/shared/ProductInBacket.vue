@@ -1,0 +1,118 @@
+<script setup lang="ts">
+import deleteProductFrombacket from "@/assets/img/png/deleteProductFrombacket.png"
+const {
+    img,
+    productName,
+    price,
+    id,
+    count
+
+} = defineProps<{
+    id: number
+    img: string,
+    productName: string,
+    price: number,
+    count: number
+}>();
+</script>
+<template>
+    <div class="product-in-backet--container">
+        <div class="product-left-block--container">
+            <img class="product--img" :src="img" alt="product">
+            <div class="product-name-and-btn--container">
+                <p class="product-name">{{ productName }}</p>
+                <div class="product-btn--container">
+                    <button class="btn--text">-</button>
+                    <p class="btn--text">{{ count }}</p>
+                    <button class="btn--text">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="delite-product-and-product-price--container">
+            <button class="btn--delite-product"><img :src="deleteProductFrombacket" alt="close"></button>
+            <p class="product-price">{{ price }}</p>
+        </div>
+    </div>
+    <div class="product--line-bottom"></div>
+</template>
+<style scoped>
+.product-in-backet--container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.product-left-block--container {
+    display: flex;
+    gap: 17px;
+}
+
+.product-name-and-btn--container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.product-btn--container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    border-radius: 8px;
+    background: var(--gray-light);
+    padding: 8px 15px;
+}
+
+.delite-product-and-product-price--container {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.product--img {
+    width: 70px;
+    height: 70px;
+}
+
+.btn--delite-product {
+    width: 27px;
+    height: 27px;
+}
+
+.product-name {
+    color: var(--light-black);
+    font-family: "Montserrat-Bold", sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 17px;
+}
+
+.btn--text {
+    color: var(--gray);
+    font-family: "Montserrat-SemiBold", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.product-price {
+    color: var(--yellow);
+    text-align: center;
+    font-family: "Montserrat-Bold", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+}
+
+.product--line-bottom {
+    background-color: var(--v3-gray-little-dark);
+    margin: 18px 0;
+    width: 100%;
+    height: 1px;
+}
+</style>

@@ -75,6 +75,11 @@ final class Application
         $product->delete('/{id}', 'destroy');
         $product->put('/{id}', 'update');
 
+        $productById = new MicroCollection();
+        $productById->setHandler(ProductController::class,true);
+        $productById->setPrefix('/api/productById');
+        $productById->post('/', 'getProductById');
+
         $header = new MicroCollection();
         $header->setHandler(HeaderController::class,true);
         $header->setPrefix('/api/header');
@@ -83,6 +88,7 @@ final class Application
         $app->mount($category);
         $app->mount($product);
         $app->mount($header);
+        $app->mount($productById);
         $app->notFound(fn()=>$app->response->setStatusCode(404)->send());
     }
 }

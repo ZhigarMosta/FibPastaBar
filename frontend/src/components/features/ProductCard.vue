@@ -1,4 +1,6 @@
 <script setup lang="ts">
+
+import { useBacketStore } from '@/stores/backet';
 import ContentBtn from '../shared/ContentBtn.vue';
 import Btn from './Btn.vue';
 const {
@@ -6,15 +8,33 @@ const {
     img,
     productName,
     desc,
-    price
+    price,
+    id
 
 } = defineProps<{
+    id: number
     isNew: boolean,
     img: string,
     productName: string,
     desc: string,
     price: number
 }>();
+
+
+const store = useBacketStore()
+
+const { addToBacket } = store
+
+const addToBacketProduct = () => {
+    const product = {
+        img: img,
+        name: productName,
+        price: price,
+        id: id,
+        count: 1
+    }
+    addToBacket(product);
+}
 
 </script>
 
@@ -29,11 +49,10 @@ const {
         <div class="product-card--price-container">
             <p class="product-card--price">от {{ price }} ₽</p>
             <div class="product-card--btn-container">
-                <Btn view="pizza">
+                <Btn :onclick="addToBacketProduct" view="pizza">
                     <ContentBtn>В Корзину</ContentBtn>
                 </Btn>
             </div>
-
         </div>
     </div>
 </template>

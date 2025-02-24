@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ProductCard from '../features/ProductCard.vue';
-import { useFetch } from '@/assets/fetch/fetch';
+import { useFetch } from '@/composables/fetches/fetch';
+import Backet from '../features/Backet.vue';
 
 interface productInterface {
     img: string,
@@ -12,17 +13,12 @@ interface productInterface {
 }
 
 interface categoriesInterface {
-    name: string,
-    anchorRef: string,
-    list: Array<productInterface>,
-}
-
-interface categoriesInterface123 {
     block: {
         categories: [{
             name: string,
             anchorRef: string
             list: [{
+                id: number
                 img: string
                 name: string
                 description: string
@@ -41,24 +37,20 @@ interface categoriesInterface123 {
     list: Array<productInterface>,
 }
 
-const { data } = useFetch<Array<categoriesInterface123>>("http://api.local/api/category", {
+const { data: CategoriesList } = useFetch<categoriesInterface>("http://api.local/api/category", {
     method: "GET",
     mode: 'cors',
 })
-console.log(data)
-const categoriesList = ref<Array<categoriesInterface>>([
-    { name: "Пицца", anchorRef: "pizza", list: [{ img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: false, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: false, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 },] },
-    { name: "Паста", anchorRef: "pasta", list: [{ img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: false, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: false, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 }, { img: "/src/assets/gag/pizza.png", name: "С креветками и трюфелями", desc: "Домашнаяя паста феттуччине, сливочный соус, креветки, трюфельное масло, черный перец, пармезан.350 г", isNew: true, price: 500 },] }
-])
 
 </script>
 <template>
     <div class="categories--container">
-        <div class="categories-list--container" v-for="categories of categoriesList">
+        <div class="categories-list--container" v-for="categories of CategoriesList?.block.categories">
             <p class="categories--text" :id="categories.anchorRef">{{ categories.name }}</p>
             <div class="product-list">
-                <ProductCard v-for="product of categories.list" :img="product.img" :product-name="product.name"
-                    :desc="product.desc" :price="product.price" :is-new="product.isNew" />
+                <ProductCard v-for="product of categories.list" :id="product.id"
+                    :img="'http://api.local/' + product.img" :product-name="product.name" :desc="product.description"
+                    :price="product.price" :is-new="product.isNew" />
             </div>
         </div>
     </div>
@@ -71,6 +63,7 @@ const categoriesList = ref<Array<categoriesInterface>>([
     display: flex;
     flex-direction: column;
     gap: 50px;
+    margin-bottom: 55px;
 }
 
 .categories-list--container {

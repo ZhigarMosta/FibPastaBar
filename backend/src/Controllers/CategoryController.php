@@ -21,7 +21,7 @@ class CategoryController extends BaseController
                     "bind" => [
                         'category_id'=> $category->id,
                     ],
-                    "columns" =>["img","name","description","isNew",'price']
+                    "columns" =>["id","img","name","description","isNew",'price'],
                 ]
         );
 

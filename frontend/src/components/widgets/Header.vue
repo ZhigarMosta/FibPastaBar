@@ -2,7 +2,8 @@
 import { RouterLink } from 'vue-router';
 import Btn from '../features/Btn.vue';
 import ContentBtn from '../shared/ContentBtn.vue';
-import { useFetch } from '@/assets/fetch/fetch';
+import { useFetch } from '@/composables/fetches/fetch';
+import BacketBtn from '../features/BacketBtn.vue';
 interface navigationInerface {
     navigation: [{
         name: string,
@@ -28,16 +29,7 @@ console.log(data)
                                 <p class="number-phone--text">
                                     8 499 391-84-49
                                 </p>
-                                <Btn view="basket">
-                                    <ContentBtn view="content-type--basket">
-                                        <template #text>
-                                            Корзина
-                                        </template>
-                                        <template #count>
-                                            {{ 1 }}
-                                        </template>
-                                    </ContentBtn>
-                                </Btn>
+                                <BacketBtn view="header"/>
                             </div>
                             <label class="menu-button-container" htmlFor="menu-toggle">
                                 <div class="menu-button"></div>
@@ -74,9 +66,7 @@ console.log(data)
                 </div>
                 <div class="bottom-header--container">
                     <div class="menu--container">
-
                         <a v-for="i of data?.navigation" class="menu--text" :href='"#" + i.anchorRef'>{{ i.name }}</a>
-
                         <RouterLink class="menu--text" to="/">Home</RouterLink>
                         <RouterLink class="menu--text" to="/about">about</RouterLink>
                     </div>
@@ -85,16 +75,7 @@ console.log(data)
                         <p class="number-phone--text number-phone--media">
                             8 499 391-84-49
                         </p>
-                        <Btn class="bottom-header--basket" view="basket">
-                            <ContentBtn view="content-type--basket">
-                                <template #text>
-                                    Корзина
-                                </template>
-                                <template #count>
-                                    {{ 1 }}
-                                </template>
-                            </ContentBtn>
-                        </Btn>
+                        <BacketBtn view="header" class="bottom-header--backet--btn" />
                     </div>
                 </div>
             </div>
@@ -412,7 +393,7 @@ header {
         margin-bottom: 20px;
     }
 
-    .bottom-header--basket--btn {
+    .bottom-header--backet--btn {
         display: none;
     }
 
@@ -453,7 +434,7 @@ header {
         top: 0px;
         right: 20px;
         width: 140px;
-
+        
         flex-direction: column;
         justify-content: center;
         align-items: start;
@@ -530,7 +511,7 @@ header {
         flex-direction: column;
     }
 
-    .bottom-header--basket--btn {
+    .bottom-header--backet--btn {
         display: block;
         margin-bottom: 30px;
     }
@@ -565,7 +546,7 @@ header {
         font-size: 18px;
     }
 
-    .bottom-header--basket--btn {
+    .bottom-header--backet--btn {
         display: flex;
         align-items: center;
         margin-top: 10px;
