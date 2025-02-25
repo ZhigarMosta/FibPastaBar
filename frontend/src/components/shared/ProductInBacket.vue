@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import deleteProductFrombacket from "@/assets/img/png/deleteProductFrombacket.png"
+import { useBacketStore } from "@/stores/backet";
 const {
     img,
     productName,
@@ -14,6 +15,11 @@ const {
     price: number,
     count: number
 }>();
+
+const store = useBacketStore()
+
+const { deleteProduct, incrementCount, decrementCount } = store
+
 </script>
 <template>
     <div class="product-in-backet--container">
@@ -22,15 +28,15 @@ const {
             <div class="product-name-and-btn--container">
                 <p class="product-name">{{ productName }}</p>
                 <div class="product-btn--container">
-                    <button class="btn--text">-</button>
+                    <button class="btn--text" @click="decrementCount(id)">-</button>
                     <p class="btn--text">{{ count }}</p>
-                    <button class="btn--text">+</button>
+                    <button class="btn--text" @click="incrementCount(id)">+</button>
                 </div>
             </div>
         </div>
         <div class="delite-product-and-product-price--container">
-            <button class="btn--delite-product"><img :src="deleteProductFrombacket" alt="close"></button>
-            <p class="product-price">{{ price }}</p>
+            <button @click="deleteProduct(id)" class="btn--delite-product"><img :src="deleteProductFrombacket" alt="close"></button>
+            <p class="product-price">{{ price }} ₽</p>
         </div>
     </div>
     <div class="product--line-bottom"></div>
@@ -67,6 +73,7 @@ const {
 .delite-product-and-product-price--container {
     display: flex;
     flex-direction: column;
+    align-items: end;
     gap: 22px;
 }
 
@@ -106,13 +113,11 @@ const {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-
 }
 
 .product--line-bottom {
-    background-color: var(--v3-gray-little-dark);
-    margin: 18px 0;
+    background: var(--v3-gray-little-dark);
     width: 100%;
-    height: 1px;
+    min-height: 2px;
 }
 </style>

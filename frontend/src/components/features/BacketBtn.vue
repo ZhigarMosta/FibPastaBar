@@ -4,7 +4,6 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import Backet from '@/components/features/Backet.vue';
-// import Backet from './Backet.vue';
 const store = useBacketStore()
 
 const { countProductInBacket } = storeToRefs(store)

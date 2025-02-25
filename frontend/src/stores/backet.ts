@@ -1,7 +1,7 @@
-import { ref, computed, type Ref } from 'vue'
+import { ref, type Ref, customRef, triggerRef } from 'vue'
 import { defineStore } from 'pinia'
 
-interface BacketInterface{
+export interface BacketInterface{
   id:number,
   img:string,
   name:string,
@@ -9,24 +9,27 @@ interface BacketInterface{
   count:number
 }
 
-function findProductById(product:Ref<Array<BacketInterface>>,id:number){
+function findProductById(product:Ref<BacketInterface[]>,id:number){
   return product.value.find(item => item.id === id)
 }
-
 export const useBacketStore = defineStore('backet', () => {
-  const backet = ref<Array<BacketInterface>>([])
+   const backet = useLocalStorageRef<BacketInterface[]>("backetList", [])
+  // const backet = ref<Array<BacketInterface>>([])
   // const doubleCount = computed(() => backet.value * 2)
 
-  const countProductInBacket = ref(0)
+  const countProductInBacket = useLocalStorageRef<number>("countProductInBacket",0)
+  const costOrder = useLocalStorageRef<number>("costOrder",0)
 
   function addToBacket(data:BacketInterface){
     const product = findProductById(backet,data.id)
-    countProductInBacket.value++
     if(!product){
       backet.value.push(data)
+      costOrder.value += data.price
+      countProductInBacket.value++
+      backet.value=[...backet.value]
     }
     else{
-      product.count++
+      incrementCount(data.id)
     }
   }
 
@@ -35,19 +38,51 @@ export const useBacketStore = defineStore('backet', () => {
     countProductInBacket.value++
     if (product) {
       product.count++
+      costOrder.value += product.price
+      backet.value=[...backet.value]
     }
   }
 
   function decrementCount(id: number) {
     const product = findProductById(backet,id)
-    if (product && product.count > 0) {
+    if (product && product.count > 1) {
       countProductInBacket.value--
       product.count--
-      if(product.count === 0){
-        backet.value = backet.value.filter(item => item.id !== id)
-      }
+      costOrder.value -= product.price 
+      backet.value=[...backet.value]
     }
-  }  
+  }
 
-  return { backet,countProductInBacket, incrementCount, decrementCount,addToBacket }
+  function deleteProduct(id: number){
+    const product = findProductById(backet,id)
+      if(product){
+        backet.value = backet.value.filter(item => item.id !== id)
+        costOrder.value -= product.price * product.count
+        countProductInBacket.value -= product.count
+      }
+  }
+
+  return {backet,countProductInBacket,costOrder,deleteProduct, incrementCount, decrementCount,addToBacket }
 })
+
+export function useLocalStorageRef<T = unknown>(
+  key: string,
+  defaultValue: T
+): Ref<T> {
+  const storedValue = localStorage.getItem(key);
+  let originalValue = storedValue ? JSON.parse(storedValue) : defaultValue;
+  return customRef((track, trigger) => {
+    return {
+      get() {
+        track();
+        return originalValue;
+      },
+      set(newValue) {
+        trigger();
+        originalValue = newValue;
+        localStorage.setItem(key, JSON.stringify(originalValue));
+        console.log(newValue)
+      },
+    };
+  });
+}
