@@ -22,9 +22,9 @@ class HeaderController extends BaseController
          ->getQuery()
          ->execute();
 
-      echo json_encode([
+      return[
          'success' => true,
          'navigation' => $categories
-      ]);
+      ];
    }   
 }

@@ -46,13 +46,13 @@ class CategoryController extends BaseController
             ]
         );
         
-        echo json_encode([
+        return[
             'success' => true,
             'block' => [
                 "categories"=>$categoriesWithProducts,
                 "products_new"=>$new_products
             ]
-        ]);
+        ];
     }
 
     public function create(){
@@ -61,12 +61,11 @@ class CategoryController extends BaseController
 
         foreach (['name', 'anchorRef'] as $key) {
             if (empty($data[$key])) {
-                echo json_encode([
+                return[
                     'success' => false,
                     'message' => "{$key} can not be null",
                     'errors' => $category->getMessages()
-                ]);
-                return;
+                ];
             }
             else{
                 $category->assign(["{$key}" => $data[$key]]);
@@ -74,17 +73,17 @@ class CategoryController extends BaseController
         }
 
         if ($category->create()) {
-            echo json_encode([
+            return[
                 'success' => true,
                 'message' => 'Category created',
                 'product' => $category
-            ]);
+            ];
         } else {
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => 'Failed to create category',
                 'errors' => $category->getMessages()
-            ]);
+            ];
         }
     }
 
@@ -92,24 +91,23 @@ class CategoryController extends BaseController
     {
         $category = Category::findFirstById($id);
         if (!$category) {
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => 'Product not found',
-            ]);
-            return;
+            ];
         }
     
         if ($category->delete()) {
-            echo json_encode([
+            return[
                 'success' => true,
                 'message' => 'Category deleted',
-            ]);
+            ];
         } else {
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => 'Failed to delete category',
                 'errors' => $category->getMessages()
-            ]);
+            ];
         }
     }
 
@@ -118,18 +116,18 @@ class CategoryController extends BaseController
         $category = Category::findFirst($id);
 
         if(empty($category)){
-            echo json_encode([
+            return[
                 'success' => false,
-                'message' => "category not found with if {$id}",            ]);
-            return;
+                'message' => "category not found with id {$id}",
+            ];
         }
 
         foreach (['name', 'anchorRef'] as $key) {
             if (empty($data[$key])) {
-                echo json_encode([
+                return[
                     'success' => false,
-                    'message' => "{$key} can not be null",                ]);
-                return;
+                    'message' => "{$key} can not be null",
+                ];
             }
             else{
                 $category->assign(["{$key}" => $data[$key]]);
@@ -137,17 +135,17 @@ class CategoryController extends BaseController
         }
 
         if ($category->update()) {
-            echo json_encode([
+            return[
                 'success' => true,
                 'message' => 'Category updated',
                 'product' => $category
-            ]);
+            ];
         } else {
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => 'Failed to update category',
                 'errors' => $category->getMessages()
-            ]);
+            ];
         }
     }
 }

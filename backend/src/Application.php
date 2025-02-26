@@ -4,42 +4,29 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Controllers\AuthController;
 use App\Controllers\CategoryController;
 use App\Controllers\HeaderController;
 use App\Controllers\ProductController;
+use App\Middlewares\AuthMiddleware;
+use App\Middlewares\ResponseMiddleware;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Mvc\Micro;
 
 use \Phalcon\Mvc\Micro\Collection as MicroCollection;
 
 use Phalcon\DI\FactoryDefault;
+use Phalcon\Http\Response\Cookies;
 
 final class Application
 {
     public function run():void
     {
         $app = new Micro($this->initDI());
-        $app->response->setContentType("application/json");
-        $responseHeaders = [
-            'Origin',
-            'Accept',
-            'X-Requested-With',
-            'Content-Range',
-            'Content-Disposition',
-            'Content-Type',
-            'Access-Token',
-            'Authorization',
-            'X-Authorization',
-            'X-Unicorn-Version'
-        ];
-    
-        $app->response->setHeader("Access-Control-Allow-Origin", '*')
-            ->setHeader("Access-Control-Allow-Methods", 'GET,POST,PUT,PATCH,DELETE,OPTIONS')
-            ->setHeader("Access-Control-Allow-Headers", implode(",", $responseHeaders))
-            ->setHeader("Access-Control-Allow-Credentials", true)
-            ->setHeader("Access-Control-Max-Age", 3600)->send();
-            $this->initRoutes($app);
-            $app->handle($_SERVER["REQUEST_URI"]);
+        $this->initRoutes($app);
+        $app->after(new ResponseMiddleware);
+        $app->before(new AuthMiddleware);
+        $app->handle($_SERVER["REQUEST_URI"]);
     }
 
     private function initDI():FactoryDefault
@@ -53,6 +40,12 @@ final class Application
                 'dbname'   => 'FibPastaBar',
             ]
         ));
+
+        $di->set(
+            'cookies',
+            fn() => 
+                new Cookies(true, "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c")
+        );
         
         return $di;
     }
@@ -74,21 +67,24 @@ final class Application
         $product->post('/', 'create');
         $product->delete('/{id}', 'destroy');
         $product->put('/{id}', 'update');
-
-        $productById = new MicroCollection();
-        $productById->setHandler(ProductController::class,true);
-        $productById->setPrefix('/api/productById');
-        $productById->post('/', 'getProductById');
+        $product->get('/{id}', 'getProductById');
 
         $header = new MicroCollection();
         $header->setHandler(HeaderController::class,true);
         $header->setPrefix('/api/header');
         $header->get('/', 'index');
 
+        $registration = new MicroCollection();
+        $registration->setHandler(AuthController::class,true);
+        $registration->setPrefix('/api/auth');
+        $registration->post('/registration', 'registration');
+        $registration->get('/logout', 'logout');
+        $registration->post('/login', 'login');
+
         $app->mount($category);
         $app->mount($product);
         $app->mount($header);
-        $app->mount($productById);
+        $app->mount($registration);
         $app->notFound(fn()=>$app->response->setStatusCode(404)->send());
     }
 }

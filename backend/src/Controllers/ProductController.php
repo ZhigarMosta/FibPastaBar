@@ -13,8 +13,10 @@ class ProductController extends BaseController
     {
         $products = Products::find();
         // $product = Products::findFirst()->category;
-        echo json_encode($products);
-        return $products;
+        return[
+            'success' => true,
+            'products' => $products
+        ];
     }
 
     public function create()
@@ -33,22 +35,20 @@ class ProductController extends BaseController
 
 
         if($category->count()<=0){
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => "category not found with if {$data["id_category"]}",
                 'errors' => $product->getMessages()
-            ]);
-            return;
+            ];
         }
 
         foreach (['name', 'isNew', 'description', 'price','id_category'] as $key) {
             if ($data[$key]===null) {
-                echo json_encode([
+                return[
                     'success' => false,
                     'message' => "{$key} can not be null",
                     'errors' => $product->getMessages()
-                ]);
-                return;
+                ];
             }
             else{
                 $product->assign(["{$key}" => $data[$key]]);
@@ -56,12 +56,11 @@ class ProductController extends BaseController
         }
         
         if(!$this->request->hasFiles()) {
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => "img can not be null",
                 'errors' => $product->getMessages()
-            ]);
-            return;
+            ];
         }
 
         
@@ -69,12 +68,11 @@ class ProductController extends BaseController
             [$file] = $this->request->getUploadedFiles();
             
             if(empty($file)) {
-                echo json_encode([
+                return[
                     'success' => false,
                     'message' => 'img can not be null',
                     'errors' => $product->getMessages()
-                ]);
-                return;
+                ];
             }
             
             $path = 'files/' . time() . $file->getName();
@@ -86,17 +84,17 @@ class ProductController extends BaseController
         }
 
         if ($product->create()) {
-            echo json_encode([
+            return[
                 'success' => true,
                 'message' => 'Product created',
                 'product' => $product
-            ]);
+            ];
         } else {
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => 'Failed to create product',
                 'errors' => $product->getMessages()
-            ]);
+            ];
         }
     }
 
@@ -104,24 +102,23 @@ class ProductController extends BaseController
     {
         $product = Products::findFirstById($id);
         if (!$product) {
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => 'Product not found',
-            ]);
-            return;
+            ];
         }
     
         if ($product->delete()) {
-            echo json_encode([
+            return[
                 'success' => true,
                 'message' => 'Product deleted',
-            ]);
+            ];
         } else {
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => 'Failed to delete product',
                 'errors' => $product->getMessages()
-            ]);
+            ];
         }
     }
 
@@ -131,18 +128,18 @@ class ProductController extends BaseController
         $product = Products::findFirst($id);
 
         if(empty($product)){
-            echo json_encode([
+            return[
                 'success' => false,
-                'message' => "category not found with if {$id}",            ]);
-            return;
+                'message' => "category not found with if {$id}",
+            ];
         }
 
         foreach (['name', 'isNew', 'description', 'price','id_category'] as $key) {
             if ($data[$key]===null) {
-                echo json_encode([
+                return[
                     'success' => false,
-                    'message' => "{$key} can not be null",                ]);
-                return;
+                    'message' => "{$key} can not be null",
+                ];
             }
             else{
                 $product->assign(["{$key}" => $data[$key]]);
@@ -150,45 +147,34 @@ class ProductController extends BaseController
         }
 
         if ($product->update()) {
-            echo json_encode([
+            return[
                 'success' => true,
                 'message' => 'Category updated',
                 'product' => $product
-            ]);
+            ];
         } else {
-            echo json_encode([
+            return[
                 'success' => false,
                 'message' => 'Failed to update category',
                 'errors' => $product->getMessages()
-            ]);
+            ];
         }
     }
-    public function getProductById(){
-        $data = $this->request->getPost();
-        
-        if(empty($data["id"])){
-            echo json_encode([
-                'success' => false,
-                'message' => "id can not be null",
-            ]);
-            return;
-        }
-
-        $product = Products::findFirst($data["id"]);
+    public function getProductById($id)
+    {
+        $product = Products::findFirst($id);
 
         if(empty($product)){
-            echo json_encode([
+            return[
                 'success' => false,
-                'message' => "product not found with if {$data["id"]}",
-            ]);
-            return;
+                'message' => "product not found with if {$id}",
+            ];
         }
 
-        echo json_encode([
+        return[
             'success' => true,
             'message' => 'product found',
             'product' => $product
-        ]);
-        
+        ];
     }
 }
