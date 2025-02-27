@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\Users;
+use Exception;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Http\Cookie;
 
@@ -12,9 +13,8 @@ class AuthController extends BaseController
 {
     public function registration()
     {
-        $data = $this->request->getPost();
+        $data = $this->request->getJsonRawBody(true);
         $user = new Users();
-
         $cookies = $this->cookies;
         
         foreach (['email', 'password', 'name'] as $key) {
@@ -32,32 +32,41 @@ class AuthController extends BaseController
         $user->assign(["email" => $data["email"]]);
         $user->assign(["name" => $data["name"]]);
 
-        if ($user->create()) {
-            $cookies->set(
-                'session',
-                json_encode(
-                    [
-                        'user_id' => $user->id,
-                    ]
-                ),
-            )->send();
-            return[
-                'success' => true,
-                'message' => 'User created',
-                'user' => $user
-            ];
-        } else {
+        try{
+            if ($user->create()) {
+                $cookies->set(
+                    'session',
+                    json_encode(
+                        [
+                            'user_id' => $user->id,
+                        ]
+                    ),
+                )->send();
+                return[
+                    'success' => true,
+                    'message' => 'User created',
+                    'user' => $user
+                ];
+            } else {
+                return[
+                    'success' => false,
+                    'message' => 'Failed to create user',
+                    'user' => $user->getMessages()
+                ];
+            }
+        }
+        catch(\Throwable $th){
             return[
                 'success' => false,
-                'message' => 'Failed to create user',
-                'user' => $user->getMessages()
+                'message' => $th->getMessage(),
             ];
         }
+
     }
 
     public function login()
     {
-        $data = $this->request->getPost();
+        $data = $this->request->getJsonRawBody(true);
 
         foreach (['email', 'password'] as $key) {
             if (empty($data[$key])) {
@@ -102,12 +111,13 @@ class AuthController extends BaseController
                 [
                     'user_id' => $user->id,
                 ]
-            ),
+            )
         )->send();
 
       return[
             'success' => true,
-            'message' => "user is login"
+            'message' => "user is login",
+            'session_id'=>$user->id
         ];
     }
 

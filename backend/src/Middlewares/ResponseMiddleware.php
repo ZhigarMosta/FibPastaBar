@@ -20,7 +20,8 @@ class ResponseMiddleware implements MiddlewareInterface
             'Access-Token',
             'Authorization',
             'X-Authorization',
-            'X-Unicorn-Version'
+            'X-Unicorn-Version',
+            "Set-Cookie"
         ];
     
         $app->response->setHeader("Access-Control-Allow-Origin", '*')

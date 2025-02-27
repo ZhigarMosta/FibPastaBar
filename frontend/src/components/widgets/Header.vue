@@ -4,6 +4,10 @@ import Btn from '../features/Btn.vue';
 import ContentBtn from '../shared/ContentBtn.vue';
 import { useFetch } from '@/composables/fetches/fetch';
 import BacketBtn from '../features/BacketBtn.vue';
+import { inject, ref } from 'vue';
+import Modal from '../shared/ModalRoot.vue';
+import FormAuth from '../features/FormAuth.vue';
+import { system } from '@ankasru/utils-ts';
 interface navigationInerface {
     navigation: [{
         name: string,
@@ -14,7 +18,25 @@ const { data } = useFetch<navigationInerface>("http://api.local/api/header", {
     method: "GET",
     mode: 'cors',
 })
-console.log(data)
+
+const userIsLogin = inject("userIsLogin")
+const modalIsOpen = ref(false)
+
+const onLogout = async () => {
+    const response = await fetch('http://api.local/api/auth/logout', {
+        method: "GET",
+        mode: 'cors'
+    });
+
+    const data = await response.json();
+    const cookies = system.parseCookies();
+
+    if (data.success) {
+        if (cookies) {
+            cookies.removeCookie("session")
+        }
+    }
+}
 </script>
 <template>
     <header>
@@ -29,7 +51,7 @@ console.log(data)
                                 <p class="number-phone--text">
                                     8 499 391-84-49
                                 </p>
-                                <BacketBtn view="header"/>
+                                <BacketBtn view="header" />
                             </div>
                             <label class="menu-button-container" htmlFor="menu-toggle">
                                 <div class="menu-button"></div>
@@ -71,7 +93,9 @@ console.log(data)
                         <RouterLink class="menu--text" to="/about">about</RouterLink>
                     </div>
                     <div class="login-and-backet--container">
-                        <button class="login--btn">Войти</button>
+                        <button v-if="!userIsLogin" class="login--btn"
+                            @click="() => modalIsOpen = !modalIsOpen">Войти</button>
+                        <button @click="onLogout()" v-else class="login--btn">Выйти</button>
                         <p class="number-phone--text number-phone--media">
                             8 499 391-84-49
                         </p>
@@ -81,6 +105,9 @@ console.log(data)
             </div>
         </div>
     </header>
+    <Modal view="light-blue" text="test" :modalIsOpen="modalIsOpen" :OpenOrclose="() => modalIsOpen = !modalIsOpen">
+        <FormAuth :modalIsOpen="modalIsOpen" :OpenOrclose="() => modalIsOpen = !modalIsOpen" />
+    </Modal>
 </template>
 <style scoped>
 @font-face {
@@ -434,7 +461,7 @@ header {
         top: 0px;
         right: 20px;
         width: 140px;
-        
+
         flex-direction: column;
         justify-content: center;
         align-items: start;
