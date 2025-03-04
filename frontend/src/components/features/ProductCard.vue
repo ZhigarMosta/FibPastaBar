@@ -31,7 +31,8 @@ const addToBacketProduct = () => {
         name: productName,
         price: price,
         id: id,
-        count: 1
+        count: 1,
+        descroption: desc
     }
     addToBacket(product);
 }

@@ -189,5 +189,9 @@ const styleText = ref(`${view}--text`);
         width: 131px;
         height: 32px;
     }
+
+    .call--text {
+        font-size: 11px;
+    }
 }
 </style>

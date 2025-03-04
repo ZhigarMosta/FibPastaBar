@@ -10,6 +10,7 @@ use App\Controllers\HeaderController;
 use App\Controllers\ProductController;
 use App\Middlewares\AuthMiddleware;
 use App\Middlewares\ResponseMiddleware;
+use App\Controllers\PromotionalCodesController;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Mvc\Micro;
 
@@ -81,10 +82,19 @@ final class Application
         $registration->get('/logout', 'logout');
         $registration->post('/login', 'login');
 
+        $promotionalCode = new MicroCollection();
+        $promotionalCode->setHandler(PromotionalCodesController::class,true);
+        $promotionalCode->setPrefix('/api/promotional_code');
+        $promotionalCode->post('/', 'create');
+        $promotionalCode->put('/{id}', 'update');
+        $promotionalCode->delete('/{id}', 'delete');
+        $promotionalCode->post('/activate', 'activate');
+
         $app->mount($category);
         $app->mount($product);
         $app->mount($header);
         $app->mount($registration);
+        $app->mount($promotionalCode);
         $app->notFound(fn()=>$app->response->setStatusCode(404)->send());
     }
 }

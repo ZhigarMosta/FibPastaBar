@@ -14,14 +14,14 @@ const {
 </script>
 <template>
     <div class="modal--wrapper" v-if="modalIsOpen">
-        <div class="modal--container" :class="'modal-view--' + view">
+        <div class="modal--container" :class="'modal-view--'+view">
             <div class="modal-top--container">
                 <p class="modal-text" :class="'modal-text-view--' + view">{{ text }}</p>
                 <button @click="OpenOrclose(modalIsOpen)" class="modal-close-btn"><img class="modal-close-img"
                         :src="closeBtn" alt="close">
                 </button>
             </div>
-            <slot class=""></slot>
+            <slot></slot>
         </div>
     </div>
 </template>

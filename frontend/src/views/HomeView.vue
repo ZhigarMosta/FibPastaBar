@@ -21,10 +21,7 @@ import Slider from '@/components/widgets/Slider.vue';
   </main>
 </template>
 <style scoped>
-.main {
-  margin-top: 142px;
-  height: calc(100% - 342px + 142px);
-}
+
 
 .slider--container {
   margin-top: 172px;
@@ -46,11 +43,6 @@ import Slider from '@/components/widgets/Slider.vue';
 }
 
 @media (max-width:1110px) {
-  .main {
-    margin-top: 80px;
-    height: calc(100% - 342px + 80px);
-  }
-
   .slider--container {
     margin-top: 106px;
   }

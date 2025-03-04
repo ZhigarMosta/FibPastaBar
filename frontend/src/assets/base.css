@@ -6,6 +6,9 @@
   --v1-gray-little-dark:#797979;
   --v2-gray-little-dark:#686466;
   --v3-gray-little-dark:#ECECF1;
+  --v4-gray-little-dark:#E2E2E9;
+  --v5-gray-little-dark:#828792;
+  --v6-gray-little-dark:#B8C5D0;
   --white:#ffffff;
   --black:#231F20;
   --light-blue:#E3ECF5;
@@ -40,6 +43,11 @@
 @font-face {
   font-family: "Montserrat-SemiBold";
   src: url("../../assets/fonts/Montserrat-SemiBold.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "Montserrat-Medium";
+  src: url("../../assets/fonts/Montserrat-Medium.ttf") format("ttf");
 }
 /* Reset and base styles  */
 * {

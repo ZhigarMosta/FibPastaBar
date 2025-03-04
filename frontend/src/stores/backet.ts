@@ -6,7 +6,8 @@ export interface BacketInterface{
   img:string,
   name:string,
   price:number,
-  count:number
+  count:number,
+  descroption:string
 }
 
 function findProductById(product:Ref<BacketInterface[]>,id:number){
@@ -19,6 +20,7 @@ export const useBacketStore = defineStore('backet', () => {
 
   const countProductInBacket = useLocalStorageRef<number>("countProductInBacket",0)
   const costOrder = useLocalStorageRef<number>("costOrder",0)
+  const discountOrder = useLocalStorageRef<number>("discountOrder",0)
 
   function addToBacket(data:BacketInterface){
     const product = findProductById(backet,data.id)
@@ -62,7 +64,7 @@ export const useBacketStore = defineStore('backet', () => {
       }
   }
 
-  return {backet,countProductInBacket,costOrder,deleteProduct, incrementCount, decrementCount,addToBacket }
+  return {backet,countProductInBacket,costOrder,discountOrder,deleteProduct, incrementCount, decrementCount,addToBacket }
 })
 
 export function useLocalStorageRef<T = unknown>(
@@ -81,7 +83,6 @@ export function useLocalStorageRef<T = unknown>(
         trigger();
         originalValue = newValue;
         localStorage.setItem(key, JSON.stringify(originalValue));
-        console.log(newValue)
       },
     };
   });

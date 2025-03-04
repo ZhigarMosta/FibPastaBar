@@ -1,13 +1,25 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
-import Btn from '../features/Btn.vue';
-import ContentBtn from '../shared/ContentBtn.vue';
+import { RouterLink, useRoute } from 'vue-router';
 import { useFetch } from '@/composables/fetches/fetch';
 import BacketBtn from '../features/BacketBtn.vue';
-import { inject, ref } from 'vue';
-import Modal from '../shared/ModalRoot.vue';
-import FormAuth from '../features/FormAuth.vue';
+import { computed, inject, ref } from 'vue';
 import { system } from '@ankasru/utils-ts';
+
+const route = useRoute();
+const layoutsMap = {
+    backet: {
+        progress: "backet"
+    },
+    orderDesign: {
+        progress: "orderDesign"
+    },
+    orderAccepted: {
+        progress: "orderAccepted"
+    },
+}
+
+const layoutComponents = computed(() => layoutsMap[route?.meta?.progress ?? "backet"]);
+
 
 interface navigationInerface {
     navigation: [{
@@ -44,47 +56,41 @@ const onLogout = async () => {
         <input id="menu-toggle" type="checkbox" />
         <div class="head">
             <div class="wrapper_header">
-                <div class="top-header--container">
-                    <div class="container--information">
+                <div class="container--information">
+                    <div class="logo-and-progress">
                         <img src="/src/assets/img/png/logo.png" alt="logo">
-                        <div class="toggle--container">
-                            <div class="media-block--container">
-                                <p class="number-phone--text">
-                                    8 499 391-84-49
-                                </p>
-                                <BacketBtn view="header" />
+                    </div>
+                    <div class="progress-bars">
+                        <div class="progress--backet">
+                            <div class="circle" :class="{ 'circle--active': layoutComponents?.progress === 'backet' }">1
                             </div>
-                            <label class="menu-button-container" htmlFor="menu-toggle">
-                                <div class="menu-button"></div>
-                            </label>
+                            <p class="progress-text"
+                                :class="{ 'progress-text--active': layoutComponents?.progress === 'backet' }">Корзина
+                            </p>
                         </div>
-                        <div class="container--inf-yandex">
-                            <p class="text-delivery--default">Доставка пасты <span
-                                    class="text-delivery--yellow">Москва</span></p>
-                            <div class="yandex-food-and-time-delivery--container">
-                                <div class="wrapper--yandex-food">
-                                    <img class="img-yandex-food" src="/src/assets/img/png/yandexFood.png"
-                                        alt="yandex-food">
-                                    <p class="yandex-food-and-time-delivery--text">Яндекс еда</p>
-                                    <div class="circle"></div>
-                                    <div class="yandex-food-and-time-delivery--text">4.8</div>
-                                    <img class="star" src="/src/assets/img/svg/star.svg" alt="star">
-                                </div>
-                                <div class="wrapper--time-delivery">
-                                    <p class="yandex-food-and-time-delivery--text">Время доставки</p>
-                                    <div class="circle"></div>
-                                    <p class="yandex-food-and-time-delivery--text">от 31 мин</p>
-                                </div>
+                        <div class="progress--line"></div>
+                        <div class="progress--order-design">
+                            <div class="circle"
+                                :class="{ 'circle--active': layoutComponents?.progress === 'orderDesign' }">2
                             </div>
+                            <p class="progress-text"
+                                :class="{ 'progress-text--active': layoutComponents?.progress === 'orderDesign' }">
+                                Оформление
+                                заказа</p>
+                        </div>
+                        <div class="progress--line"></div>
+                        <div class="progress--order-accepted">
+                            <div class="circle"
+                                :class="{ 'circle--active': layoutComponents?.progress === 'orderAccepted' }">3</div>
+                            <p class="progress-text"
+                                :class="{ 'progress-text--active': layoutComponents?.progress === 'orderAccepted' }">Заказ
+                                принят</p>
                         </div>
                     </div>
-                    <div class="number-phone--container">
-                        <Btn view="call">
-                            <ContentBtn>Заказать звонок</ContentBtn>
-                        </Btn>
-                        <p class="number-phone--text">
-                            8 499 391-84-49
-                        </p>
+                    <div class="toggle--container">
+                        <label class="menu-button-container" htmlFor="menu-toggle">
+                            <div class="menu-button"></div>
+                        </label>
                     </div>
                 </div>
                 <div class="bottom-header--container">
@@ -106,11 +112,148 @@ const onLogout = async () => {
             </div>
         </div>
     </header>
-    <Modal view="light-blue" text="Вход на сайт" :modalIsOpen="modalIsOpen" :OpenOrclose="() => modalIsOpen = !modalIsOpen">
-        <FormAuth :modalIsOpen="modalIsOpen" :OpenOrclose="() => modalIsOpen = !modalIsOpen" />
-    </Modal>
 </template>
 <style scoped>
+.circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+
+    color: var(--yellow);
+    font-family: "Montserrat-Bold", sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px;
+    background-color: none;
+    border: solid 2px var(--yellow);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle--active {
+    background-color: var(--yellow);
+    color: var(--black);
+}
+
+.progress-text {
+    color: var(--gray);
+}
+
+.progress-text--active {
+    color: var(--light-black);
+    text-align: center;
+    font-family: "Montserrat-SemiBold", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.progress-bars {
+    display: flex;
+    align-items: center;
+}
+
+.progress--backet,
+.progress--order-design,
+.progress--order-accepted {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.progress--backet {
+    margin-right: 5px;
+}
+
+.progress--order-design {
+    margin-left: -45px;
+    margin-right: -45px;
+}
+
+.progress--order-accepted {
+    margin-left: -15px;
+}
+
+.progress--line {
+    border-top: 2px dashed var(--v6-gray-little-dark);
+    width: 102px;
+    margin-bottom: 25px;
+}
+
+
+.progress-bars {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.container--information {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+@media (max-width: 1110px) {
+    .progress-bars {
+        padding-right: 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container--information {
+        gap: 12px;
+    }
+
+    .logo-and-progress {
+        order: 1;
+    }
+
+    .progress-bars {
+        order: 3;
+        width: 100%;
+        padding: 0;
+
+        justify-content: space-between;
+    }
+
+    .progress--line {
+        width: 40px;
+    }
+
+    .progress-text {
+        font-size: 11px;
+    }
+
+    .toggle--container {
+        order: 2;
+    }
+
+    .container--information {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .progress--backet {
+        margin-right: 2px;
+    }
+
+    .progress--order-design {
+        margin-left: -22px;
+        margin-right: -22px;
+    }
+
+    .progress--order-accepted {
+        margin-left: -6px;
+    }
+
+}
+
 @font-face {
     font-family: "Montserrat-Bold";
     src: url("../../assets/fonts/Montserrat-Bold.ttf") format("ttf");
@@ -124,6 +267,17 @@ const onLogout = async () => {
 @font-face {
     font-family: "Montserrat-SemiBold";
     src: url("../../assets/fonts/Montserrat-SemiBold.ttf") format("ttf");
+}
+
+.number-phone--text {
+    color: var(--light-black);
+    font-family: "Montserrat-Bold", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+    width: 150px;
 }
 
 .menu--text.router-link-exact-active {
@@ -140,49 +294,8 @@ const onLogout = async () => {
 
 }
 
-.yandex-food-and-time-delivery--text {
-    color: var(--black);
-    font-family: "Montserrat-Bold", sans-serif;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-
-}
-
-.text-delivery--default,
-.text-delivery--yellow {
-    color: var(--black);
-    font-family: "Montserrat-SemiBold", sans-serif;
-    font-size: 17px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-}
-
-.text-delivery--yellow {
-    color: var(--yellow);
-}
-
-.number-phone--text {
-    color: var(--yellow);
-    font-family: "Montserrat-Bold", sans-serif;
-    font-size: 26px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    text-transform: uppercase;
-
-}
-
 .media-block--container {
     display: none;
-}
-
-.top-header--container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
 }
 
 .container--information {
@@ -191,63 +304,6 @@ const onLogout = async () => {
     align-items: center;
 
     width: 100%;
-    max-width: 515px;
-}
-
-.container--inf-yandex {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-    justify-content: center;
-}
-
-.yandex-food-and-time-delivery--container {
-    display: flex;
-    gap: 20px;
-}
-
-.wrapper--yandex-food {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 7px;
-}
-
-.img-yandex-food {
-    width: 18px;
-    height: 18px;
-
-}
-
-.circle {
-    width: 4px;
-    height: 4px;
-    background-color: var(--pink);
-    border-radius: 50%;
-
-    margin-top: 2px;
-}
-
-.star {
-    width: 14px;
-    height: 16px;
-    margin-left: -3px;
-}
-
-.wrapper--time-delivery {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 7px;
-}
-
-.number-phone--container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    width: 100%;
-    max-width: 395px;
 }
 
 .login-and-backet--container {
@@ -275,6 +331,8 @@ header {
     top: 0;
     width: 100%;
     background-color: var(--white);
+
+    border-bottom: 1px solid var(--v3-gray-little-dark);
 }
 
 .logoTextHeder {
@@ -318,6 +376,8 @@ header {
     align-items: center;
     justify-content: space-between;
     gap: 25px;
+
+    display: none;
 }
 
 #menu-toggle {
@@ -427,7 +487,7 @@ header {
 
     .toggle--container {
         width: 100%;
-        max-width: 464px;
+        max-width: 46px;
 
         display: flex;
         align-items: center;
@@ -440,15 +500,6 @@ header {
         gap: 20px;
     }
 
-    .container--information {
-        max-width: 100%;
-    }
-
-    .container--inf-yandex,
-    .number-phone--container {
-        display: none;
-    }
-
     .menu-button-container {
         display: flex;
     }
@@ -458,6 +509,7 @@ header {
     }
 
     .bottom-header--container {
+        display: flex;
         position: absolute;
         top: 0px;
         right: 20px;
@@ -566,12 +618,6 @@ header {
 
     .menu--container {
         padding-left: 0px;
-    }
-
-    .number-phone--text {
-        color: var(--light-black);
-        width: 150px;
-        font-size: 18px;
     }
 
     .bottom-header--backet--btn {

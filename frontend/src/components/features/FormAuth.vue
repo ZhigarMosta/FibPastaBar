@@ -10,6 +10,8 @@ import { ref } from 'vue';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { system } from '@ankasru/utils-ts';
+import ErrorMessage from '../shared/ErrorMessage.vue';
+import Btn from './Btn.vue';
 
 const { errors: loginErrors, handleSubmit: loginHandleSubmit, defineField: loginDefineField } = useForm({
     validationSchema: yup.object({
@@ -42,14 +44,14 @@ const answerMessageForRegistration = ref("")
 const answerMessageForLoginPassword = ref("")
 const answerMessageForLoginEmail = ref("")
 
-function crearErrorsMessage() {
+function clearErrorsMessage() {
     answerMessageForRegistration.value = ""
     answerMessageForLoginPassword.value = ""
     answerMessageForLoginEmail.value = ""
 }
 
 const onLogin = loginHandleSubmit(async values => {
-    crearErrorsMessage();
+    clearErrorsMessage();
 
     const response = await fetch('http://api.local/api/auth/login', {
         method: "POST",
@@ -80,7 +82,7 @@ const onLogin = loginHandleSubmit(async values => {
 
 });
 const onRegister = registerHandleSubmit(async values => {
-    crearErrorsMessage();
+    clearErrorsMessage();
 
     const response = await fetch('http://api.local/api/auth/registration', {
         method: "POST",
@@ -108,53 +110,148 @@ const onRegister = registerHandleSubmit(async values => {
 });
 </script>
 <template>
-    <div class="auth-radio">
-        <input type="radio" @change="changeForm()" checked name="auth">
-        <label>Регистрация</label>
-        <input type="radio" @change="changeForm()" name="auth">
-        <label>Вход</label>
+    <div class="radio--container">
+        <input class="radio--input" type="radio" id="regist" @change="changeForm()" checked name="auth">
+        <input class="radio--input" type="radio" id="login" @change="changeForm()" name="auth">
+        <label class="radio-regist--label" htmlFor="regist">
+            <p class="radio-regist--text">Регистрация</p>
+        </label>
+        <label class="radio-login--label" htmlFor="login">
+            <p class="radio-login--text">Вход</p>
+        </label>
     </div>
     <div class="form--container" v-if="formIsRegistration">
         <form class="form" @submit="onRegister">
-            <input :class="{ 'input--error': registerErrors.name }" type="text" v-model="registerName"
-                v-bind="registerNameAttrs" placeholder="name" />
-            <p v-if="registerErrors.name">Имя является обязательным полем</p>
+            <div class="input-and-errors--contsiner">
+                <input class="input" :class="{ 'input--error': registerErrors.name }" type="text" v-model="registerName"
+                    v-bind="registerNameAttrs" placeholder="Имя" />
+                <ErrorMessage v-if="registerErrors.name" text="Имя является обязательным полем" />
+            </div>
 
-            <input :class="{ 'input--error': registerErrors.email || answerMessageForRegistration }" type="email"
-                v-model="registerEmail" v-bind="registerEmailAttrs" placeholder="email" />
-            <p v-if="registerErrors.email">Email является обязательным полем</p>
-            <p v-if="answerMessageForRegistration">{{ answerMessageForRegistration }}</p>
+            <div class="input-and-errors--contsiner">
+                <input class="input" :class="{ 'input--error': registerErrors.email || answerMessageForRegistration }"
+                    type="email" v-model="registerEmail" v-bind="registerEmailAttrs" placeholder="Email" />
+                <ErrorMessage v-if="registerErrors.email" text="Email является обязательным полем" />
+                <ErrorMessage v-if="answerMessageForRegistration" text="{{ answerMessageForRegistration }}" />
+            </div>
 
-            <input :class="{ 'input--error': registerErrors.password }" type="password" v-model="registerPassword"
-                v-bind="registerPasswordAttrs" placeholder="password" />
-            <p v-if="registerErrors.password">Пароль минимум из 6 символов</p>
+            <div class="input-and-errors--contsiner">
+                <input class="input" :class="{ 'input--error': registerErrors.password }" type="password"
+                    v-model="registerPassword" v-bind="registerPasswordAttrs" placeholder="Пароль" />
+                <ErrorMessage v-if="registerErrors.password" text="Пароль минимум из 6 символов" />
+            </div>
 
-            <button>Submit</button>
+            <Btn view="addres-or-order">
+                Зарегистрироваться
+            </Btn>
         </form>
     </div>
     <div class="form--container" v-else>
         <form class="form" @submit="onLogin">
-            <input :class="{ 'input--error': loginErrors.email }" type="email" v-model="loginEmail"
+            <input class="input" :class="{ 'input--error': loginErrors.email }" type="email" v-model="loginEmail"
                 v-bind="loginEmailAttrs" placeholder="email" />
-            <p v-if="loginErrors.email">Email является обязательным полем</p>
-            <p v-if="answerMessageForLoginEmail">{{ answerMessageForLoginEmail }}</p>
+            <ErrorMessage v-if="loginErrors.email" text="Email является обязательным полем" />
+            <ErrorMessage v-if="answerMessageForLoginEmail" :text="answerMessageForLoginEmail" />
 
-            <input :class="{ 'input--error': loginErrors.password }" type="text" v-model="loginPassword"
+            <input class="input" :class="{ 'input--error': loginErrors.password }" type="password" v-model="loginPassword"
                 v-bind="loginPasswordAttrs" placeholder="password" />
-            <p v-if="loginErrors.password">Пароль минимум из 6 символов</p>
-            <p v-if="answerMessageForLoginPassword">{{ answerMessageForLoginPassword }}</p>
+            <ErrorMessage v-if="loginErrors.password" text="Пароль минимум из 6 символов" />
+            <ErrorMessage v-if="answerMessageForLoginPassword" :text="answerMessageForLoginPassword" />
 
-            <button>Submit</button>
+            <Btn view="addres-or-order">
+                Войти
+            </Btn>
         </form>
     </div>
 </template>
 <style scoped>
+.radio--input {
+    display: none;
+}
+
+.radio--container {
+    display: flex;
+    gap: 12px;
+}
+
+.radio-regist--label,
+.radio-login--label {
+    padding: 10px 36px;
+    background-color: var(--gray-light);
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+.radio-regist--text,
+.radio-login--text {
+    color: var(--v5-gray-little-dark);
+    font-family: "Montserrat-SemiBold", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+#regist:checked~.radio-regist--label {
+    background-color: var(--yellow);
+}
+
+#regist:checked~.radio-regist--label .radio-regist--text {
+    background-color: var(--yellow);
+    color: var(--black);
+    font-family: "Montserrat-Bold", sans-serif;
+    font-weight: 700;
+}
+
+#login:checked~.radio-login--label {
+    background-color: var(--yellow);
+}
+
+#login:checked~.radio-login--label .radio-login--text {
+    background-color: var(--yellow);
+    color: var(--black);
+    font-family: "Montserrat-Bold", sans-serif;
+    font-weight: 700;
+}
+
 .form {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.input {
+    height: 48.0px;
+    border-radius: 8px;
+    border: 1.5px solid var(--v4-gray-little-dark);
+    padding-left: 20px;
+
+    color: var(--black);
+    font-family: "Montserrat-Bold", sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px;
 }
 
 .input--error {
+    border: 1.5px solid var(--pink);
+}
+
+.input-and-errors--contsiner {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input--message-error {
     color: red;
+    font-family: "Montserrat-Bold", sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px;
 }
 </style>

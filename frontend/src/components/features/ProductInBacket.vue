@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import deleteProductFrombacket from "@/assets/img/png/deleteProductFrombacket.png"
-import { useBacketStore } from "@/stores/backet";
+import IncDecProduct from "../shared/IncDecProduct.vue";
+import DeleteProduct from "../shared/DeleteProduct.vue";
 const {
     img,
     productName,
@@ -16,10 +16,6 @@ const {
     count: number
 }>();
 
-const store = useBacketStore()
-
-const { deleteProduct, incrementCount, decrementCount } = store
-
 </script>
 <template>
     <div class="product-in-backet--container">
@@ -27,15 +23,11 @@ const { deleteProduct, incrementCount, decrementCount } = store
             <img class="product--img" :src="img" alt="product">
             <div class="product-name-and-btn--container">
                 <p class="product-name">{{ productName }}</p>
-                <div class="product-btn--container">
-                    <button class="btn--text" @click="decrementCount(id)">-</button>
-                    <p class="btn--text">{{ count }}</p>
-                    <button class="btn--text" @click="incrementCount(id)">+</button>
-                </div>
+                <IncDecProduct :count="count" :id="id" />
             </div>
         </div>
         <div class="delite-product-and-product-price--container">
-            <button @click="deleteProduct(id)" class="btn--delite-product"><img :src="deleteProductFrombacket" alt="close"></button>
+            <DeleteProduct :id="id" />
             <p class="product-price">{{ price }} ₽</p>
         </div>
     </div>
@@ -59,16 +51,7 @@ const { deleteProduct, incrementCount, decrementCount } = store
     gap: 12px;
 }
 
-.product-btn--container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
 
-    border-radius: 8px;
-    background: var(--gray-light);
-    padding: 8px 15px;
-}
 
 .delite-product-and-product-price--container {
     display: flex;
@@ -82,11 +65,6 @@ const { deleteProduct, incrementCount, decrementCount } = store
     height: 70px;
 }
 
-.btn--delite-product {
-    width: 27px;
-    height: 27px;
-}
-
 .product-name {
     color: var(--light-black);
     font-family: "Montserrat-Bold", sans-serif;
@@ -96,14 +74,7 @@ const { deleteProduct, incrementCount, decrementCount } = store
     line-height: 17px;
 }
 
-.btn--text {
-    color: var(--gray);
-    font-family: "Montserrat-SemiBold", sans-serif;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 28px;
-}
+
 
 .product-price {
     color: var(--yellow);

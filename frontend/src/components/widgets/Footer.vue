@@ -8,7 +8,7 @@ import ContentBtn from '../shared/ContentBtn.vue';
             <div class="social-network-and-logo--container">
                 <div class="logo--container">
                     <img src="/src/assets/img/png/logo.png" alt="logo">
-                    <div class="media-phone--container">
+                    <div class="media-phone--container number--phone-text--media">
                         <p class="number--text">8 499 391-84-49</p>
                         <Btn class="btn--call" view="call">
                             <ContentBtn>
@@ -117,7 +117,9 @@ import ContentBtn from '../shared/ContentBtn.vue';
     font-family: "Montserrat-SemiBold";
     src: url("../../assets/fonts/Montserrat-SemiBold.ttf") format("ttf");
 }
-
+.number--phone-text--media{
+    display: none;
+}
 .social-network--wrapper,
 .bottom-block--container {
     z-index: 2;
@@ -132,12 +134,10 @@ import ContentBtn from '../shared/ContentBtn.vue';
 }
 
 footer {
-    max-width: 1110px;
-    margin: 0 auto;
-}
-
-.media-phone--container {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
 }
 
 .phone-number--container {
@@ -156,6 +156,7 @@ footer {
 .social-network--wrapper {
     display: flex;
     width: 100%;
+    max-width: 1110px;
     justify-content: space-between;
 }
 

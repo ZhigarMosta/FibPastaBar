@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useBacketStore, type BacketInterface } from '@/stores/backet';
-import ProductInBacket from '../shared/ProductInBacket.vue';
+import ProductInBacket from './ProductInBacket.vue';
 import { storeToRefs } from 'pinia';
 
 const store = useBacketStore();
-const { backet, costOrder } = storeToRefs(store);
+const { backet, costOrder, discountOrder } = storeToRefs(store);
 
 </script>
 
@@ -18,13 +18,39 @@ const { backet, costOrder } = storeToRefs(store);
             </div>
             <div class="order-amount--container">
                 <p class="order-text--amount">Сумма заказа</p>
-                <p class="order-text--order">{{ costOrder }} ₽</p>
+                <div class="price-order--container">
+                    <p class="order-text--order" :class="{ 'order-text-order--discount': discountOrder > 0 }">{{
+                        costOrder }} ₽</p>
+                    <p class="order-text--order--discount" v-if="discountOrder > 0">{{ costOrder - (costOrder *
+                        discountOrder * 0.01) }} ₽</p>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+.order-text--order--discount {
+    color: var(--pink);
+    text-align: right;
+    font-family: "Montserrat-ExtraBold", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.order-text-order--discount {
+    text-decoration-line: line-through;
+    text-decoration-color: var(--pink);
+    text-decoration-thickness: 2px;
+}
+
+.price-order--container {
+    display: flex;
+    gap: 10px;
+}
+
 .backet--container {
     width: 350px;
     padding-top: 15px;
@@ -72,7 +98,7 @@ const { backet, costOrder } = storeToRefs(store);
     color: var(--yellow);
     text-align: right;
     font-family: "Montserrat-ExtraBold", sans-serif;
-    font-size: 24px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 800;
     line-height: normal;
@@ -94,7 +120,7 @@ const { backet, costOrder } = storeToRefs(store);
 @media (max-width:768px) {
     .backet--container {
         width: 300px;
-        margin-top: -320px;
+        margin-top: -310px;
         margin-left: -140px;
     }
 

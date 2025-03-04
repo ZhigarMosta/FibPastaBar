@@ -4,8 +4,8 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import Backet from '@/components/features/Backet.vue';
-const store = useBacketStore()
 
+const store = useBacketStore()
 const { countProductInBacket } = storeToRefs(store)
 
 const {
@@ -18,7 +18,7 @@ const {
 const toRef = ref("#")
 const BacketIsOpen = ref(false)
 if (view === "header") {
-    toRef.value = "/about"
+    toRef.value = "/backet"
 }
 else {
     toRef.value = "#"
