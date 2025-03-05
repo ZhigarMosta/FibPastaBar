@@ -201,7 +201,7 @@ const { costOrder, discountOrder } = storeToRefs(store)
     .promotional-and-price--container {
         flex-direction: column;
         align-items: center;
-        gap: 30px;
+        gap: 50px;
     }
 
     .order---container {

@@ -8,7 +8,7 @@ import { useBacketStore } from '@/stores/backet';
 import { storeToRefs } from 'pinia';
 
 const store = useBacketStore()
-const { discountOrder } = storeToRefs(store)
+const { discountOrder, promotionalCode } = storeToRefs(store)
 
 const { handleSubmit, defineField } = useForm({
     validationSchema: yup.object({
@@ -47,6 +47,7 @@ const onPromotionalCodeActive = handleSubmit(async values => {
             return
         }
         discountOrder.value = data.discount
+        promotionalCode.value = data.code
     }
 
     console.log(data)
@@ -54,15 +55,20 @@ const onPromotionalCodeActive = handleSubmit(async values => {
 </script>
 <template>
     <form class="promotional-code--form" @submit="onPromotionalCodeActive">
-        <input class="promotional-code--input" :class="{ 'input--error': errorNotFound }" type="text" v-model="code"
-            v-bind="codeAttrs" placeholder="Введите промокод" />
-        <button class="promotional-code--btn">Применить</button>
+        <div class="promotional-code--wrapper">
+            <input class="promotional-code--input" :class="{ 'input--error': errorNotFound }" type="text" v-model="code"
+                v-bind="codeAttrs" placeholder="Введите промокод" />
+            <button class="promotional-code--btn">Применить</button>
+        </div>
         <ErrorMessage v-if="errorNotFound" :text="errorNotFound" />
     </form>
 </template>
 <style scoped>
-.promotional-code--form {
+.promotional-code--wrapper {
     display: flex;
+}
+
+.promotional-code--form {
     width: 100%;
     max-width: 353px;
     height: 43px;

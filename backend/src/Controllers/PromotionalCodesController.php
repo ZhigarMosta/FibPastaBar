@@ -171,7 +171,8 @@ class PromotionalCodesController extends BaseController
         return[
             'success' => true,
             'message' => "discount actived",
-            'discount' => $promotionalCode->discount_percentage
+            'discount' => $promotionalCode->discount_percentage,
+            'code' => $promotionalCode->code
         ];
        
     }

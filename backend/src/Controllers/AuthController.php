@@ -117,7 +117,8 @@ class AuthController extends BaseController
       return[
             'success' => true,
             'message' => "user is login",
-            'session_id'=>$user->id
+            'session_id'=>$user->id,
+            'user' => $user
         ];
     }
 

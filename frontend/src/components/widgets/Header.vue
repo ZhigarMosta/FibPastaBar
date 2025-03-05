@@ -4,10 +4,16 @@ import Btn from '../features/Btn.vue';
 import ContentBtn from '../shared/ContentBtn.vue';
 import { useFetch } from '@/composables/fetches/fetch';
 import BacketBtn from '../features/BacketBtn.vue';
-import { inject, ref } from 'vue';
+import { inject, ref, useTemplateRef } from 'vue';
 import Modal from '../shared/ModalRoot.vue';
 import FormAuth from '../features/FormAuth.vue';
 import { system } from '@ankasru/utils-ts';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+
+const store = useUserStore();
+const { user } = storeToRefs(store);
+const modalRootRef = useTemplateRef('modalRoot')
 
 interface navigationInerface {
     navigation: [{
@@ -21,7 +27,7 @@ const { data } = useFetch<navigationInerface>("http://api.local/api/header", {
 })
 
 const userIsLogin = inject("userIsLogin")
-const modalIsOpen = ref(false)
+modalRootRef.value?.OpenOrclose()
 
 const onLogout = async () => {
     const response = await fetch('http://api.local/api/auth/logout', {
@@ -36,8 +42,17 @@ const onLogout = async () => {
         if (cookies) {
             cookies.removeCookie("session")
         }
+
+        const updateUser = {
+            ...user.value,
+            name: "",
+            email: ""
+        }
+
+        user.value = updateUser
     }
 }
+
 </script>
 <template>
     <header>
@@ -95,7 +110,7 @@ const onLogout = async () => {
                     </div>
                     <div class="login-and-backet--container">
                         <button v-if="!userIsLogin" class="login--btn"
-                            @click="() => modalIsOpen = !modalIsOpen">Войти</button>
+                            @click="modalRootRef?.OpenOrclose()">Войти</button>
                         <button @click="onLogout()" v-else class="login--btn">Выйти</button>
                         <p class="number-phone--text number-phone--media">
                             8 499 391-84-49
@@ -106,8 +121,8 @@ const onLogout = async () => {
             </div>
         </div>
     </header>
-    <Modal view="light-blue" text="Вход на сайт" :modalIsOpen="modalIsOpen" :OpenOrclose="() => modalIsOpen = !modalIsOpen">
-        <FormAuth :modalIsOpen="modalIsOpen" :OpenOrclose="() => modalIsOpen = !modalIsOpen" />
+    <Modal ref="modalRoot" view="light-blue" text="Вход на сайт">
+        <FormAuth :OpenOrclose="() => modalRootRef?.OpenOrclose()" />
     </Modal>
 </template>
 <style scoped>

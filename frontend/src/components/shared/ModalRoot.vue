@@ -1,24 +1,32 @@
 <script setup lang="ts">
 import closeBtn from "@/assets/img/png/closeModal.png"
+import { ref } from "vue";
+
 const {
-    modalIsOpen,
     text,
-    OpenOrclose,
     view
 } = defineProps<{
-    modalIsOpen: boolean,
     text?: string,
-    OpenOrclose: (modalIsOpen: boolean) => {},
-    view: "white" | "light-blue"
+    view: string
 }>();
+const modalIsOpen = ref(false)
+
+const OpenOrclose = () => {
+    modalIsOpen.value = !modalIsOpen.value
+}
+
+defineExpose({
+    modalIsOpen, OpenOrclose
+})
+
 </script>
 <template>
     <div class="modal--wrapper" v-if="modalIsOpen">
-        <div class="modal--container" :class="'modal-view--'+view">
+        <div class="modal--container" :class="'modal-view--' + view">
             <div class="modal-top--container">
                 <p class="modal-text" :class="'modal-text-view--' + view">{{ text }}</p>
-                <button @click="OpenOrclose(modalIsOpen)" class="modal-close-btn"><img class="modal-close-img"
-                        :src="closeBtn" alt="close">
+                <button @click="OpenOrclose()" class="modal-close-btn"><img class="modal-close-img" :src="closeBtn"
+                        alt="close">
                 </button>
             </div>
             <slot></slot>
@@ -62,7 +70,8 @@ const {
     overflow: auto;
     padding: 40px;
 
-    width: 500px;
+    width: 100%;
+    max-width: 668px;
 
     display: flex;
     flex-direction: column;

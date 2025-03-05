@@ -1,10 +1,8 @@
 <script setup lang="ts">
 const {
     OpenOrclose,
-    modalIsOpen,
 } = defineProps<{
-    modalIsOpen: boolean
-    OpenOrclose: (modalIsOpen: boolean) => {},
+    OpenOrclose(): void,
 }>();
 import { ref } from 'vue';
 import { useForm } from 'vee-validate';
@@ -12,6 +10,11 @@ import * as yup from 'yup';
 import { system } from '@ankasru/utils-ts';
 import ErrorMessage from '../shared/ErrorMessage.vue';
 import Btn from './Btn.vue';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+
+const store = useUserStore();
+const { user } = storeToRefs(store);
 
 const { errors: loginErrors, handleSubmit: loginHandleSubmit, defineField: loginDefineField } = useForm({
     validationSchema: yup.object({
@@ -63,11 +66,18 @@ const onLogin = loginHandleSubmit(async values => {
     const cookies = system.parseCookies()
 
     if (data.success) {
-        OpenOrclose(modalIsOpen)
-
+        OpenOrclose()
         if (cookies) {
             cookies.setCookie({ name: "session", value: JSON.stringify({ user_id: data.session_id }) })
         }
+
+        const updateUser = {
+            ...user.value,
+            name: data.user.name,
+            email: data.user.email
+        }
+        user.value = updateUser
+        return
     }
 
     if (data.message.includes("Not found user with email")) {
@@ -94,11 +104,20 @@ const onRegister = registerHandleSubmit(async values => {
     const cookies = system.parseCookies();
 
     if (data.success) {
-        OpenOrclose(modalIsOpen)
+        OpenOrclose()
 
         if (cookies) {
             cookies.setCookie({ name: "session", value: JSON.stringify({ user_id: data.user.id }) })
         }
+
+        const updateUser = {
+            ...user.value,
+            name: data.user.name,
+            email: data.user.email
+        }
+        console.log(data.user.name, data.user.email)
+        user.value = updateUser
+        return
     }
 
     if (data.message.includes("Users.emailUnique")) {
@@ -153,8 +172,8 @@ const onRegister = registerHandleSubmit(async values => {
             <ErrorMessage v-if="loginErrors.email" text="Email является обязательным полем" />
             <ErrorMessage v-if="answerMessageForLoginEmail" :text="answerMessageForLoginEmail" />
 
-            <input class="input" :class="{ 'input--error': loginErrors.password }" type="password" v-model="loginPassword"
-                v-bind="loginPasswordAttrs" placeholder="password" />
+            <input class="input" :class="{ 'input--error': loginErrors.password }" type="password"
+                v-model="loginPassword" v-bind="loginPasswordAttrs" placeholder="password" />
             <ErrorMessage v-if="loginErrors.password" text="Пароль минимум из 6 символов" />
             <ErrorMessage v-if="answerMessageForLoginPassword" :text="answerMessageForLoginPassword" />
 

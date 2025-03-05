@@ -1,6 +1,7 @@
 import { ref, type Ref, customRef, triggerRef } from 'vue'
 import { defineStore } from 'pinia'
 
+
 export interface BacketInterface{
   id:number,
   img:string,
@@ -8,6 +9,20 @@ export interface BacketInterface{
   price:number,
   count:number,
   descroption:string
+}
+
+export interface AddresInterface{
+  addres:{
+    sity:string,
+    house:string,
+    entrance:string,
+    apartment:string,
+    floor:string,
+    code:string,
+    nameAddres:string,
+    commentAddres:string
+  }
+  pickup:boolean
 }
 
 function findProductById(product:Ref<BacketInterface[]>,id:number){
@@ -21,6 +36,10 @@ export const useBacketStore = defineStore('backet', () => {
   const countProductInBacket = useLocalStorageRef<number>("countProductInBacket",0)
   const costOrder = useLocalStorageRef<number>("costOrder",0)
   const discountOrder = useLocalStorageRef<number>("discountOrder",0)
+  const promotionalCode = useLocalStorageRef<string>("promotionalCode","")
+  
+  const delivery = useLocalStorageRef<AddresInterface>("delivery",{addres:{apartment:"",code:"",commentAddres:"",entrance:"",floor:"",house:"",nameAddres:"",sity:""},pickup:false})
+  const deliveryTime = useLocalStorageRef<string>("deliveryTime","Побыстрее")
 
   function addToBacket(data:BacketInterface){
     const product = findProductById(backet,data.id)
@@ -64,7 +83,7 @@ export const useBacketStore = defineStore('backet', () => {
       }
   }
 
-  return {backet,countProductInBacket,costOrder,discountOrder,deleteProduct, incrementCount, decrementCount,addToBacket }
+  return {backet,countProductInBacket,costOrder,discountOrder,promotionalCode,delivery,deliveryTime,deleteProduct, incrementCount, decrementCount,addToBacket }
 })
 
 export function useLocalStorageRef<T = unknown>(

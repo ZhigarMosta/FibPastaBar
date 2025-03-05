@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia';
 import BacketItem from '../features/BacketItem.vue';
 
 const store = useBacketStore();
-const { backet } = storeToRefs(store);
+const { backet, } = storeToRefs(store);
 </script>
 <template>
     <BacketItem v-for="product of backet" :key="product.id" :id="product.id" :count="product.count"
