@@ -74,7 +74,8 @@ const onLogin = loginHandleSubmit(async values => {
         const updateUser = {
             ...user.value,
             name: data.user.name,
-            email: data.user.email
+            email: data.user.email,
+            id: data.user.id
         }
         user.value = updateUser
         return
@@ -101,6 +102,7 @@ const onRegister = registerHandleSubmit(async values => {
     });
 
     const data = await response.json();
+    console.log(data)
     const cookies = system.parseCookies();
 
     if (data.success) {
@@ -113,9 +115,10 @@ const onRegister = registerHandleSubmit(async values => {
         const updateUser = {
             ...user.value,
             name: data.user.name,
-            email: data.user.email
+            email: data.user.email,
+            id: data.user.id
         }
-        console.log(data.user.name, data.user.email)
+        console.log(data)
         user.value = updateUser
         return
     }
@@ -151,7 +154,7 @@ const onRegister = registerHandleSubmit(async values => {
                 <input class="input" :class="{ 'input--error': registerErrors.email || answerMessageForRegistration }"
                     type="email" v-model="registerEmail" v-bind="registerEmailAttrs" placeholder="Email" />
                 <ErrorMessage v-if="registerErrors.email" text="Email является обязательным полем" />
-                <ErrorMessage v-if="answerMessageForRegistration" text="{{ answerMessageForRegistration }}" />
+                <ErrorMessage v-if="answerMessageForRegistration" :text="answerMessageForRegistration" />
             </div>
 
             <div class="input-and-errors--contsiner">

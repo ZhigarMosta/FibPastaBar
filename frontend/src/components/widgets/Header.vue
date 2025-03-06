@@ -46,7 +46,8 @@ const onLogout = async () => {
         const updateUser = {
             ...user.value,
             name: "",
-            email: ""
+            email: "",
+            id: undefined
         }
 
         user.value = updateUser

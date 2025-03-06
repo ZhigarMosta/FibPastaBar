@@ -21,7 +21,9 @@ class ResponseMiddleware implements MiddlewareInterface
             'Authorization',
             'X-Authorization',
             'X-Unicorn-Version',
-            "Set-Cookie"
+            // "Set-Cookie",
+            // "Cookie",
+            // "X-Cookie"
         ];
     
         $app->response->setHeader("Access-Control-Allow-Origin", 'http://localhost:5173')

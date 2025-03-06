@@ -17,15 +17,15 @@ const { user } = storeToRefs(store);
 
 const { errors, handleSubmit, defineField } = useForm({
     validationSchema: yup.object({
-        name: yup.string().required(),
+        email: yup.string().email().required(),
     }),
 });
 const errorsForm = ref("")
-const [name, nameAttrs] = defineField('name');
-name.value = user.value.name ?? ""
+const [email, emailAttrs] = defineField('email');
+email.value = user.value.email ?? ""
 const onChangeUserName = handleSubmit(async values => {
     if (user.value.id) {
-        const response = await fetch('http://api.local/api/user/name/change', {
+        const response = await fetch('http://api.local/api/user/email/change', {
             method: "POST",
             body: JSON.stringify({ ...values, userId: user.value.id, }),
             credentials: "include",
@@ -43,35 +43,39 @@ const onChangeUserName = handleSubmit(async values => {
             }
             user.value = updateUserData
             OpenOrclose()
+            return
+        }
+
+        if (data.message.includes("User is not authorized")) {
+            errorsForm.value = "Вы не авторизированны"
+        }
+        else if (data.message.includes("A user with this email already exists")) {
+            errorsForm.value = "Пользователь с такой почтой уже существует"
         }
         else {
-            if (data.message.includes("User is not authorized")) {
-                errorsForm.value = "Вы не авторизированны"
-            }
-            else {
-                errorsForm.value = data.message
-            }
+            errorsForm.value = data.message
         }
     }
     else {
-        if (values.name) {
+        if (values.email) {
             const updateUserData = {
                 ...user.value,
-                name: values.name,
+                email: values.email,
             }
             user.value = updateUserData
             OpenOrclose()
         }
     }
+
 });
 
 </script>
 <template>
     <form class="form" @submit="onChangeUserName">
-        <div class="form-user-name--container">
-            <input class="user-name-input" :class="{ 'user-name-input--error': errors.name }" type="text" v-model="name"
-                v-bind="nameAttrs" placeholder="Имя" />
-            <ErrorMessage v-if="errors.name" text="Имя является обязательным полем" />
+        <div class="form-user-email--container">
+            <input class="user-email-input" :class="{ 'user-email-input--error': errors.email }" type="email"
+                v-model="email" v-bind="emailAttrs" placeholder="Почта" />
+            <ErrorMessage v-if="errors.email" text="Email является обязательным полем" />
             <ErrorMessage v-if="errorsForm" :text="errorsForm" />
         </div>
         <Btn view="addres-or-order">
@@ -80,7 +84,7 @@ const onChangeUserName = handleSubmit(async values => {
     </form>
 </template>
 <style scoped>
-.user-name-input {
+.user-email-input {
     color: var(--black);
     font-family: "Montserrat-Bold", sans-serif;
     font-size: 15px;
@@ -102,7 +106,7 @@ const onChangeUserName = handleSubmit(async values => {
     gap: 40px;
 }
 
-.user-name-input--error {
+.user-email-input--error {
     border: 1.5px solid var(--pink);
 }
 </style>

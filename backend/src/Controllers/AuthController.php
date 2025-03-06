@@ -111,7 +111,8 @@ class AuthController extends BaseController
                 [
                     'user_id' => $user->id,
                 ]
-            )
+                ),
+                domain:"api.local"
         )->send();
 
       return[

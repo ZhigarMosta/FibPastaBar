@@ -1,89 +1,28 @@
 <script setup lang="ts">
-import ChangeTime from '@/components/features/ChangeTime.vue';
-import FormChangeUserName from '@/components/features/FormChangeUserName.vue';
-import FormDelivery from '@/components/features/FormDelivery.vue';
-import ModalRoot from '@/components/shared/ModalRoot.vue';
+import Btn from '@/components/features/Btn.vue';
+import ChangeAddres from '@/components/features/ChangeAddres.vue';
+import Bonus from '@/components/shared/Bonus.vue';
+import ContentBtn from '@/components/shared/ContentBtn.vue';
 import PageTitle from '@/components/shared/PageTitle.vue';
+import PaymentMethods from '@/components/shared/PaymentMethods.vue';
+import PromotionalCode from '@/components/shared/PromotionalCode.vue';
+import RouteTo from '@/components/shared/RouteTo.vue';
 import { useBacketStore } from '@/stores/backet';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
-import { computed, ref, useTemplateRef } from 'vue';
+import { useTemplateRef } from 'vue';
 
 const storeUser = useUserStore();
 const { user } = storeToRefs(storeUser);
 
 const storeBacket = useBacketStore();
-const { delivery, deliveryTime } = storeToRefs(storeBacket);
+const { delivery, deliveryTime, costOrder, discountOrder } = storeToRefs(storeBacket);
 
-enum ModalStateEnum {
-    Email,
-    Address,
-    Time,
-    Name
-}
+const changeAddres = useTemplateRef('addres')
 
-const modalState = ref<ModalStateEnum>(ModalStateEnum.Email)
-
-const onEditModalState = (type: ModalStateEnum): void => {
-    modalState.value = type
-    modalRootRef.value?.OpenOrclose()
-}
-
-const activeEditComponent = computed(() => {
-    const components = {
-        [ModalStateEnum.Email]: {
-            title: 'Редактировать почту',
-            component: FormDelivery,
-            viewModal: "white"
-        },
-        [ModalStateEnum.Name]: {
-            title: 'Редактировать имя',
-            component: FormChangeUserName,
-            viewModal: "white"
-        },
-        [ModalStateEnum.Address]: {
-            title: 'Куда доставить?',
-            component: FormDelivery,
-            viewModal: "white"
-        },
-        [ModalStateEnum.Time]: {
-            title: 'Время доставки',
-            component: ChangeTime,
-            viewModal: "light-blue"
-        }
-    };
-
-    return components[modalState.value]
-});
-
-const modalRootRef = useTemplateRef('modalRoot')
-
-const validateAddress = (): boolean => {
-    if (delivery.value.addres.apartment && delivery.value.addres.sity && delivery.value.addres.house && delivery.value.addres.floor && delivery.value.addres.entrance) return true
-    return false
-}
-
-const CangePickuptoTrue = (): void => {
-    const updatedAddress = {
-        ...delivery.value,
-        pickup: true
-    };
-
-    delivery.value = updatedAddress;
-}
-
-const CangePickuptoFalse = (): void => {
-    const updatedAddress = {
-        ...delivery.value,
-        pickup: false
-    };
-
-    if (validateAddress()) {
-        delivery.value = updatedAddress;
-        return
-    }
-
-    modalRootRef.value?.OpenOrclose()
+const orderDelivery = () => {
+    changeAddres.value?.StateToAddres
+    changeAddres.value?.OpenModal()
 }
 
 </script>
@@ -91,161 +30,50 @@ const CangePickuptoFalse = (): void => {
     <div class="order-view--container">
         <div class="left-side--container">
             <PageTitle>Заказ на доставку</PageTitle>
-            <div class="delivery-addres-information">
-                <div class="information-block">
-                    <div class="information-name--container">
-                        <p class="information-name">Имя</p>
-                    </div>
-                    <div class="information-content--container">
-                        <p class="information-content--text">{{ user.name }}</p>
-                        <button class="btn-change-information" @click="onEditModalState(ModalStateEnum.Name)">Изменить</button>
-                    </div>
-                </div>
-                <div class="information-block">
-                    <div class="information-name--container">
-                        <p class="information-name">Почта</p>
-                    </div>
-                    <div class="information-content--container">
-                        <p class="information-content--text">{{ user.email }}</p>
-                        <button class="btn-change-information">Изменить</button>
-                    </div>
-                </div>
-                <div class="information-block">
-                    <div class="information-name--container">
-                        <p class="information-name">Адрес доставки</p>
-                    </div>
-                    <div class="information-content--container">
-                        <div class="addres-content--container" v-if="delivery.pickup">
-                            <p class="information-content--text-name-addres">Самовывоз</p>
-                        </div>
-                        <div class="addres-content--container" v-else>
-                            <p class="information-content--text-name-addres">{{ delivery.addres.nameAddres }}</p>
-                            <p class="information-content--text">{{ delivery.addres.sity }}, {{ delivery.addres.house
-                                }}, {{ delivery.addres.floor }}</p>
-                            <p class="information-content--text">{{ delivery.addres.entrance }}, {{
-                                delivery.addres.apartment }}, {{ delivery.addres.code }}</p>
-                        </div>
-                        <div class="btn-change--container">
-                            <button @click="onEditModalState(ModalStateEnum.Address)"
-                                class="btn-change-information">Изменить</button>
-                            <button @click="CangePickuptoFalse()" v-if="delivery.pickup"
-                                class="btn-change-information">Доставить?</button>
-                            <button @click="CangePickuptoTrue()" v-else class="btn-change-information">Выбрать
-                                самовывоз</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="information-block">
-                    <div class="information-name--container">
-                        <p class="information-name">Время доставки</p>
-                    </div>
-                    <div class="information-content--container">
-                        <p class="information-content--text">{{ deliveryTime }}</p>
-                        <button class="btn-change-information"
-                            @click="onEditModalState(ModalStateEnum.Time)">Изменить</button>
-                    </div>
-                </div>
+            <ChangeAddres ref="addres" />
+            <div class="promotional--container">
+                <p class="promotional--text">Промокод</p>
+                <PromotionalCode />
+            </div>
+            <PaymentMethods />
+            <Bonus />
+            <div class="order-btn--container">
+                <RouteTo text="Назад в корзину" url="/backet" />
+                <Btn @click="orderDelivery" view="addres-or-order">
+                    <ContentBtn view="content-type--apply-order">
+                        <template v-slot:count>{{ costOrder - (costOrder * discountOrder * 0.01) }}</template>
+                        <template v-slot:text>Оформить заказ на</template>
+                    </ContentBtn>
+                </Btn>
             </div>
         </div>
-        <div class="right-side--container"></div>
-        <ModalRoot ref="modalRoot" v-if="modalState != undefined" :view="activeEditComponent.viewModal"
-            :text="activeEditComponent.title">
-            <component :is="activeEditComponent.component" :OpenOrclose="() => modalRootRef?.OpenOrclose()" />
-        </ModalRoot>
+        <div class="right-side--container">
+        </div>
     </div>
 </template>
 <style scoped>
-.addres-content--container {
-    margin-bottom: 20px;
-}
-
-.btn-change--container {
+.order-btn--container {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+
+    margin: 51px 0 85px 0;
 }
 
-.delivery-addres-information {
-    margin-top: 30px;
-
+.promotional--container {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 27px;
+    margin-top: 40px;
 }
 
-.btn-change-information {
+.promotional--text {
     color: var(--yellow);
-    text-align: right;
-    font-family: "Montserrat-Bold", sans-serif;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 28px;
-    opacity: 0.82;
-
-}
-
-.information-content--text-name-addres {
-    color: var(--black);
     font-family: "Montserrat-SemiBold", sans-serif;
-    font-size: 17px;
+    font-size: 22px;
     font-style: normal;
     font-weight: 600;
-    line-height: 28px;
-    opacity: 0.82;
-
-}
-
-.information-content--text {
-    color: var(--black);
-    font-family: "Montserrat-Bold", sans-serif;
-    font-size: 17px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 28px;
-    opacity: 0.82;
-
-}
-
-.information-content--container {
-    display: flex;
-    justify-content: space-between;
-
-    width: 100%;
-    border: 1.5px solid #F3F3F7;
-    background: rgba(241, 242, 245, 0.60);
-    border-radius: 7px;
-    padding: 10px 20px;
-}
-
-.information-name {
-    color: var(--black);
-    font-family: "Montserrat-SemiBold", sans-serif;
-    font-size: 17px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 28px;
-    opacity: 0.7;
-}
-
-.information-block {
-    display: flex;
-    align-items: center;
-}
-
-.information-name--container {
-    width: 100%;
-    max-width: 190px;
-}
-
-.order-view--container {
-    width: 100%;
-    max-width: 1110px;
-
-    padding: 0 10px;
-    margin: 0 auto;
-
-    display: flex;
+    line-height: 17px;
 }
 
 .left-side--container {
@@ -256,5 +84,14 @@ const CangePickuptoFalse = (): void => {
 .right-side--container {
     width: 100%;
     max-width: 337px;
+}
+
+.order-view--container {
+    width: 100%;
+    max-width: 1110px;
+    padding: 0 10px;
+    margin: 0 auto;
+
+    display: flex;
 }
 </style>

@@ -93,8 +93,9 @@ final class Application
 
         $user = new MicroCollection();
         $user->setHandler(UserController::class,true);
-        $user->setPrefix('/api/user/name');
-        $user->post('/change', 'changeName');
+        $user->setPrefix('/api/user');
+        $user->post('/name/change', 'changeName');
+        $user->post('/email/change', 'changeEmail');
 
         $app->mount($category);
         $app->mount($product);

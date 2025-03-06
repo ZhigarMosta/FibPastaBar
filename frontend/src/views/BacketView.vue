@@ -2,6 +2,7 @@
 import BacketList from '@/components/shared/BacketList.vue';
 import PageTitle from '@/components/shared/PageTitle.vue';
 import PromotionalCode from '@/components/shared/PromotionalCode.vue';
+import RouteTo from '@/components/shared/RouteTo.vue';
 import { useBacketStore } from '@/stores/backet';
 import { storeToRefs } from 'pinia';
 import { RouterLink } from 'vue-router';
@@ -32,10 +33,7 @@ const { costOrder, discountOrder } = storeToRefs(store)
                 </div>
             </div>
             <div class="btn--container">
-                <RouterLink class="btn-back" to="/"><img class="btn-back--arrow" src="../assets/img/svg/back.svg"
-                        alt="arrow">
-                    <p class="btn-back--text">Вернуться в магазин</p>
-                </RouterLink>
+                <RouteTo class="btn-back" text="Вернуться в магазин" url="/" />
                 <RouterLink class="btn--order" to="/order">
                     <p class="btn-order--text">
                         Оформить заказ
@@ -47,33 +45,11 @@ const { costOrder, discountOrder } = storeToRefs(store)
     </div>
 </template>
 <style scoped>
-.btn-back--arrow {
-    width: 10px;
-    height: 28px;
-}
-
 .btn--container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-}
-
-.btn-back--text {
-    color: var(--gray);
-    font-family: "Montserrat-Bold", sans-serif;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 28px;
-}
-
-.btn-back {
-    display: flex;
-    justify-content: space-between;
-
-    width: 100%;
-    max-width: 200px;
 }
 
 .promotional--text {
