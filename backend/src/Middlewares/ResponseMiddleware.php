@@ -24,10 +24,10 @@ class ResponseMiddleware implements MiddlewareInterface
             "Set-Cookie"
         ];
     
-        $app->response->setHeader("Access-Control-Allow-Origin", '*')
+        $app->response->setHeader("Access-Control-Allow-Origin", 'http://localhost:5173')
             ->setHeader("Access-Control-Allow-Methods", 'GET,POST,PUT,PATCH,DELETE,OPTIONS')
             ->setHeader("Access-Control-Allow-Headers", implode(",", $responseHeaders))
-            ->setHeader("Access-Control-Allow-Credentials", true)
+            ->setHeader("Access-Control-Allow-Credentials", "true")
             ->setHeader("Access-Control-Max-Age", 3600);
 
         $app->response->setContent(json_encode($app->getReturnedValue()))->send();       

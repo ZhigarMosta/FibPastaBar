@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ChangeTime from '@/components/features/ChangeTime.vue';
+import FormChangeUserName from '@/components/features/FormChangeUserName.vue';
 import FormDelivery from '@/components/features/FormDelivery.vue';
 import ModalRoot from '@/components/shared/ModalRoot.vue';
 import PageTitle from '@/components/shared/PageTitle.vue';
@@ -17,7 +18,8 @@ const { delivery, deliveryTime } = storeToRefs(storeBacket);
 enum ModalStateEnum {
     Email,
     Address,
-    Time
+    Time,
+    Name
 }
 
 const modalState = ref<ModalStateEnum>(ModalStateEnum.Email)
@@ -32,6 +34,11 @@ const activeEditComponent = computed(() => {
         [ModalStateEnum.Email]: {
             title: 'Редактировать почту',
             component: FormDelivery,
+            viewModal: "white"
+        },
+        [ModalStateEnum.Name]: {
+            title: 'Редактировать имя',
+            component: FormChangeUserName,
             viewModal: "white"
         },
         [ModalStateEnum.Address]: {
@@ -91,7 +98,7 @@ const CangePickuptoFalse = (): void => {
                     </div>
                     <div class="information-content--container">
                         <p class="information-content--text">{{ user.name }}</p>
-                        <button class="btn-change-information">Изменить</button>
+                        <button class="btn-change-information" @click="onEditModalState(ModalStateEnum.Name)">Изменить</button>
                     </div>
                 </div>
                 <div class="information-block">

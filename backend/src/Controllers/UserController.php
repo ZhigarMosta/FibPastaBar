@@ -9,6 +9,6 @@ class UserController extends BaseController
     public function changeName(){
         $cookies = $this->cookies->get("session");
 
-        return $cookies;
+        return json_decode($cookies->getValue()??"");
     }
 }

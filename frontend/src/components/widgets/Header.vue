@@ -4,7 +4,7 @@ import Btn from '../features/Btn.vue';
 import ContentBtn from '../shared/ContentBtn.vue';
 import { useFetch } from '@/composables/fetches/fetch';
 import BacketBtn from '../features/BacketBtn.vue';
-import { inject, ref, useTemplateRef } from 'vue';
+import { inject, useTemplateRef } from 'vue';
 import Modal from '../shared/ModalRoot.vue';
 import FormAuth from '../features/FormAuth.vue';
 import { system } from '@ankasru/utils-ts';
