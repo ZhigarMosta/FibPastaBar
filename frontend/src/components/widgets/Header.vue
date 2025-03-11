@@ -27,7 +27,6 @@ const { data } = useFetch<navigationInerface>("http://api.local/api/header", {
 })
 
 const userIsLogin = inject("userIsLogin")
-modalRootRef.value?.OpenOrclose()
 
 const onLogout = async () => {
     const response = await fetch('http://api.local/api/auth/logout', {
@@ -62,7 +61,7 @@ const onLogout = async () => {
             <div class="wrapper_header">
                 <div class="top-header--container">
                     <div class="container--information">
-                        <img src="/src/assets/img/png/logo.png" alt="logo">
+                        <RouterLink to="/"><img src="/src/assets/img/png/logo.png" alt="logo"></RouterLink>
                         <div class="toggle--container">
                             <div class="media-block--container">
                                 <p class="number-phone--text">
@@ -111,7 +110,7 @@ const onLogout = async () => {
                     </div>
                     <div class="login-and-backet--container">
                         <button v-if="!userIsLogin" class="login--btn"
-                            @click="modalRootRef?.OpenOrclose()">Войти</button>
+                            @click="modalRootRef?.open()">Войти</button>
                         <button @click="onLogout()" v-else class="login--btn">Выйти</button>
                         <p class="number-phone--text number-phone--media">
                             8 499 391-84-49
@@ -123,7 +122,7 @@ const onLogout = async () => {
         </div>
     </header>
     <Modal ref="modalRoot" view="light-blue" text="Вход на сайт">
-        <FormAuth :OpenOrclose="() => modalRootRef?.OpenOrclose()" />
+        <FormAuth :close="() => modalRootRef?.close()" />
     </Modal>
 </template>
 <style scoped>

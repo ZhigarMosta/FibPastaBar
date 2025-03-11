@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const {
-    OpenOrclose,
+    close,
 } = defineProps<{
-    OpenOrclose(): void,
+    close(): void,
 }>();
 import { ref } from 'vue';
 import { useForm } from 'vee-validate';
@@ -66,7 +66,7 @@ const onLogin = loginHandleSubmit(async values => {
     const cookies = system.parseCookies()
 
     if (data.success) {
-        OpenOrclose()
+        close()
         if (cookies) {
             cookies.setCookie({ name: "session", value: JSON.stringify({ user_id: data.session_id }) })
         }
@@ -106,7 +106,7 @@ const onRegister = registerHandleSubmit(async values => {
     const cookies = system.parseCookies();
 
     if (data.success) {
-        OpenOrclose()
+        close()
 
         if (cookies) {
             cookies.setCookie({ name: "session", value: JSON.stringify({ user_id: data.user.id }) })

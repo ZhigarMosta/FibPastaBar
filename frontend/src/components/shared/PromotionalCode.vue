@@ -47,7 +47,7 @@ const onPromotionalCodeActive = handleSubmit(async values => {
             return
         }
         discountOrder.value = data.discount
-        promotionalCode.value = data.code
+        promotionalCode.value = data.id
     }
 
     console.log(data)

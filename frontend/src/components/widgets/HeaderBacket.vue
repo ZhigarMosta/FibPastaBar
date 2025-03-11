@@ -58,7 +58,7 @@ const onLogout = async () => {
             <div class="wrapper_header">
                 <div class="container--information">
                     <div class="logo-and-progress">
-                        <img src="/src/assets/img/png/logo.png" alt="logo">
+                        <RouterLink to="/"><img class="logo" src="/src/assets/img/png/logo.png" alt="logo"></RouterLink>
                     </div>
                     <div class="progress-bars">
                         <div class="progress--backet">
@@ -114,6 +114,10 @@ const onLogout = async () => {
     </header>
 </template>
 <style scoped>
+.logo{
+    width: 82.0px;
+    height: 60.6px;
+}
 .circle {
     width: 36px;
     height: 36px;

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const {
-    OpenOrclose,
+    closeModal,
 } = defineProps<{
-    OpenOrclose(): void,
+    closeModal(): void,
 }>();
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
@@ -42,7 +42,7 @@ const onChangeUserName = handleSubmit(async values => {
                 id: data.user.id
             }
             user.value = updateUserData
-            OpenOrclose()
+            closeModal()
         }
         else {
             if (data.message.includes("User is not authorized")) {
@@ -60,7 +60,7 @@ const onChangeUserName = handleSubmit(async values => {
                 name: values.name,
             }
             user.value = updateUserData
-            OpenOrclose()
+            closeModal()
         }
     }
 });

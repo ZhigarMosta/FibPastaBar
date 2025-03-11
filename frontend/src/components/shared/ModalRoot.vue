@@ -11,12 +11,15 @@ const {
 }>();
 const modalIsOpen = ref(false)
 
-const OpenOrclose = () => {
+
+const open = () => {
     modalIsOpen.value = !modalIsOpen.value
 }
-
+const close = () => {
+    modalIsOpen.value = !modalIsOpen.value
+}
 defineExpose({
-    modalIsOpen, OpenOrclose
+    modalIsOpen, open, close
 })
 
 </script>
@@ -25,7 +28,7 @@ defineExpose({
         <div class="modal--container" :class="'modal-view--' + view">
             <div class="modal-top--container">
                 <p class="modal-text" :class="'modal-text-view--' + view">{{ text }}</p>
-                <button @click="OpenOrclose()" class="modal-close-btn"><img class="modal-close-img" :src="closeBtn"
+                <button @click="close()" class="modal-close-btn"><img class="modal-close-img" :src="closeBtn"
                         alt="close">
                 </button>
             </div>

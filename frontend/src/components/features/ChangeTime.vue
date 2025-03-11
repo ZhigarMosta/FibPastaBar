@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const {
-    OpenOrclose,
+    closeModal,
 } = defineProps<{
-    OpenOrclose(): void,
+    closeModal(): void,
 }>();
 import { storeToRefs } from 'pinia';
 import { useBacketStore } from '@/stores/backet';
@@ -14,26 +14,16 @@ const timeList = ["Побыстрее", "15:00 - 15:30", "16:00 - 16:30", "17:00
 
 const changeItem = (time: string): void => {
     deliveryTime.value = time;
-    OpenOrclose();
+    closeModal();
 }
 
 </script>
 <template>
     <div class="delivery-time--container">
         <div class="time-radio--container" v-for="item in timeList" :key="item">
-            <input 
-                class="time--input" 
-                type="radio" 
-                :id="item" 
-                @change="changeItem(item)" 
-                :checked="deliveryTime === item" 
-                name="delivery"
-            >
-            <label 
-                class="time--label" 
-                :class="{ 'selected': deliveryTime === item }" 
-                :for="item"
-            >
+            <input class="time--input" type="radio" :id="item" @change="changeItem(item)"
+                :checked="deliveryTime === item" name="delivery">
+            <label class="time--label" :class="{ 'selected': deliveryTime === item }" :for="item">
                 <p class="time-text">{{ item }}</p>
             </label>
         </div>
@@ -47,10 +37,12 @@ const changeItem = (time: string): void => {
     row-gap: 17px;
     column-gap: 14px;
 }
+
 .time-radio--container {
     width: 100%;
-    max-width: 280px; 
+    max-width: 280px;
 }
+
 .time--label {
     width: 100%;
     max-width: 280px;
@@ -62,6 +54,7 @@ const changeItem = (time: string): void => {
     display: flex;
     align-items: center;
 }
+
 .time--label.selected {
     border: 2px solid var(--yellow);
 }

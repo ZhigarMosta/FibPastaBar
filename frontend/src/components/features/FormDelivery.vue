@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const {
-    OpenOrclose,
+    closeModal,
 } = defineProps<{
-    OpenOrclose(): void,
+    closeModal(): void,
 }>();
 import { ref } from 'vue';
 import { useForm } from 'vee-validate';
@@ -53,24 +53,24 @@ function changeForm() {
 }
 
 const sendAddres = handleSubmit(async values => {
+    console.log(values)
     const updatedAddress = {
-        ...delivery.value,
         addres: {
             sity: values.sity,
             house: values.house,
             entrance: values.entrance,
             apartment: values.apartment,
             floor: values.floor,
-            code: values.code || delivery?.value?.addres?.code,
-            nameAddres: values.nameAddres || delivery?.value?.addres?.nameAddres,
-            commentAddres: values.commentAddres || delivery?.value?.addres?.commentAddres
+            code: values.code,
+            nameAddres: values.nameAddres,
+            commentAddres: values.commentAddres,
         },
         pickup: false
     };
 
     delivery.value = updatedAddress;
-
-    OpenOrclose()
+    console.log(delivery.value)
+    closeModal()
 });
 
 const sendPickup = () => {
@@ -91,7 +91,7 @@ const sendPickup = () => {
 
     delivery.value = updatedAddress;
 
-    OpenOrclose()
+    closeModal()
 }
 
 </script>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const {
-    OpenOrclose,
+    closeModal,
 } = defineProps<{
-    OpenOrclose(): void,
+    closeModal(): void,
 }>();
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
@@ -42,7 +42,7 @@ const onChangeUserName = handleSubmit(async values => {
                 id: data.user.id
             }
             user.value = updateUserData
-            OpenOrclose()
+            closeModal()
             return
         }
 
@@ -63,7 +63,7 @@ const onChangeUserName = handleSubmit(async values => {
                 email: values.email,
             }
             user.value = updateUserData
-            OpenOrclose()
+            closeModal()
         }
     }
 

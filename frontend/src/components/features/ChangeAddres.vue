@@ -26,7 +26,7 @@ const modalState = ref<ModalStateEnum>(ModalStateEnum.Email)
 
 const onEditModalState = (type: ModalStateEnum): void => {
     modalState.value = type
-    modalRootRef.value?.OpenOrclose()
+    modalRootRef.value?.open()
 }
 
 const activeEditComponent = computed(() => {
@@ -52,7 +52,6 @@ const activeEditComponent = computed(() => {
             viewModal: "light-blue"
         }
     };
-
     return components[modalState.value]
 });
 
@@ -83,17 +82,11 @@ const CangePickuptoFalse = (): void => {
         return
     }
 
-    modalRootRef.value?.OpenOrclose()
+    modalRootRef.value?.close()
 }
 
-
-const OpenModal = () => { modalRootRef.value?.OpenOrclose() }
-const StateToAddres = onEditModalState(ModalStateEnum.Address)
-const StateToName = onEditModalState(ModalStateEnum.Name)
-const StateToEmail = onEditModalState(ModalStateEnum.Email)
-
 defineExpose({
-    OpenModal, StateToAddres, StateToName, StateToEmail
+    onEditModalState, ModalStateEnum
 })
 
 </script>
@@ -128,7 +121,7 @@ defineExpose({
                 <div class="addres-content--container" v-else>
                     <p class="information-content--text-name-addres">{{ delivery.addres.nameAddres }}</p>
                     <p class="information-content--text">{{ delivery.addres.sity }}, {{ delivery.addres.house
-                    }}, {{ delivery.addres.floor }}</p>
+                        }}, {{ delivery.addres.floor }}</p>
                     <p class="information-content--text">{{ delivery.addres.entrance }}, {{
                         delivery.addres.apartment }}, {{ delivery.addres.code }}</p>
                 </div>
@@ -154,7 +147,7 @@ defineExpose({
     </div>
     <ModalRoot ref="modalRoot" v-if="modalState != undefined" :view="activeEditComponent.viewModal"
         :text="activeEditComponent.title">
-        <component :is="activeEditComponent.component" :OpenOrclose="() => modalRootRef?.OpenOrclose()" />
+        <component :is="activeEditComponent.component" :closeModal="() => modalRootRef?.close()" />
     </ModalRoot>
 </template>
 <style scoped>
