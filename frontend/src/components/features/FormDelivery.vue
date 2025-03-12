@@ -24,7 +24,7 @@ const { errors, handleSubmit, defineField } = useForm({
         floor: yup.string().required(),
         code: yup.string(),
         nameAddres: yup.string(),
-        comentAddres: yup.string()
+        commentAddres: yup.string()
     }),
 });
 
@@ -35,7 +35,7 @@ const [apartment, apartmentAttrs] = defineField('apartment');
 const [floor, floorAttrs] = defineField('floor');
 const [code, codeAttrs] = defineField('code');
 const [nameAddres, nameAddresAttrs] = defineField('nameAddres');
-const [commentAddres, comentAddresAttrs] = defineField('comentAddres');
+const [commentAddres, comentAddresAttrs] = defineField('commentAddres');
 
 sity.value = delivery?.value?.addres?.sity
 house.value = delivery?.value?.addres?.house

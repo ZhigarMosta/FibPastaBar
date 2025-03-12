@@ -1,24 +1,55 @@
 <script setup lang="ts">
-import { useBacketStore } from "@/stores/backet";
-import { storeToRefs } from "pinia";
 import OrderСompositionList from "@/components/features/OrderСompositionList.vue"
-const store = useBacketStore()
+import type { BacketInterface } from "@/stores/backet";
 
-const { costOrder } = storeToRefs(store)
+const {
+    backet,
+    costOrder,
+    discountOrder,
+    totalCostOrder,
+} = defineProps<{
+    backet: BacketInterface[],
+    costOrder: number
+    discountOrder?: number
+    totalCostOrder: number
+}>();
 
 </script>
 <template>
     <div class="order-composition">
         <p class="order-composition__title">Состов заказа</p>
-        <OrderСompositionList class="order-composition-list" />
+        <OrderСompositionList :backet="backet" class="order-composition-list" />
         <div class="order-composition__cost-order--container">
             <p class="order-composition__cost-order-title">Сумма заказа</p>
-            <p class="order-composition__cost-order-price">{{ costOrder }} ₽</p>
+            <div class="order-composition__price">
+                <p class="order-composition__cost-order-price--default"
+                    :class="{ 'order-composition__cost-order-price--crossed': discountOrder && discountOrder > 0 }">
+                    {{ costOrder }} ₽
+                </p>
+                <p class="order-composition__cost-order-price-discount" v-if="discountOrder && discountOrder > 0">
+                    {{ totalCostOrder }} ₽
+                </p>
+            </div>
         </div>
         <p class="order-composition__delivery">Беспалтная доставка</p>
     </div>
 </template>
 <style scoped>
+.order-composition__cost-order-price-discount {
+    color: var(--pink);
+    text-align: right;
+    font-family: "Montserrat-ExtraBold", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.order-composition__price {
+    display: flex;
+    gap: 5px;
+}
+
 .order-composition {
     width: 100%;
     max-width: 508px;
@@ -58,10 +89,9 @@ const { costOrder } = storeToRefs(store)
     line-height: 28px;
 }
 
-.order-composition__cost-order-price {
+.order-composition__cost-order-price--default {
     color: var(--black);
     font-family: "Montserrat-ExtraBold", sans-serif;
-    font-size: 17px;
     font-style: normal;
     font-weight: 800;
     line-height: 28px;
@@ -77,5 +107,12 @@ const { costOrder } = storeToRefs(store)
     line-height: 28px;
     opacity: 0.6;
     text-align: center;
+}
+
+.order-composition__cost-order-price--crossed {
+    text-decoration-line: line-through;
+    text-decoration-color: var(--yellow);
+    text-decoration-thickness: 2px;
+    font-size: 14px;
 }
 </style>

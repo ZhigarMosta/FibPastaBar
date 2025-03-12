@@ -1,151 +1,70 @@
 <script setup lang="ts">
-import Btn from '@/components/features/Btn.vue';
-import ChangeAddres from '@/components/features/ChangeAddres.vue';
-import Bonus from '@/components/shared/Bonus.vue';
-import ContentBtn from '@/components/shared/ContentBtn.vue';
+import GratitudeOrder from '@/components/features/GratitudeOrder.vue';
+import InfoOrder from '@/components/features/InfoOrder.vue';
 import PageTitle from '@/components/shared/PageTitle.vue';
-import PaymentMethods from '@/components/shared/PaymentMethods.vue';
-import PromotionalCode from '@/components/shared/PromotionalCode.vue';
-import RouteTo from '@/components/shared/RouteTo.vue';
-import { useBacketStore } from '@/stores/backet';
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
-import { provide, useTemplateRef } from 'vue';
 import OrderСomposition from "@/components/widgets/OrderСomposition.vue"
-import router from '@/router';
+import { useBacketStore } from '@/stores/backet';
+import { useOrderStore } from '@/stores/order';
+import { storeToRefs } from 'pinia';
 
-const storeUser = useUserStore();
-const { user } = storeToRefs(storeUser);
+const store = useOrderStore();
+const { order } = storeToRefs(store);
 
-const storeBacket = useBacketStore();
-const { delivery, backet, deliveryTime, costOrder, discountOrder, promotionalCode } = storeToRefs(storeBacket);
+const BacketStore = useBacketStore();
+const { backet, countProductInBacket, costOrder, discountOrder, promotionalCode } = storeToRefs(BacketStore);
 
-const changeAddres = useTemplateRef('addres')
-
-const orderDelivery = async () => {
-    if (!deliveryTime) {
-        changeAddres.value?.onEditModalState(changeAddres.value?.ModalStateEnum.Time)
-        return
-    }
-    if (!delivery.value.addres.sity && !delivery.value.addres.house && !delivery.value.addres.apartment && !delivery.value.addres.floor && !delivery.value.addres.entrance) {
-        changeAddres.value?.onEditModalState(changeAddres.value?.ModalStateEnum.Address)
-        return
-    }
-    if (!user.value.name) {
-        changeAddres.value?.onEditModalState(changeAddres.value?.ModalStateEnum.Name)
-        return
-    }
-    if (!user.value.email) {
-        changeAddres.value?.onEditModalState(changeAddres.value?.ModalStateEnum.Email)
-        return
-    }
-    const response = await fetch('http://api.local/api/order', {
-        method: "POST",
-        body: JSON.stringify({ delivery: delivery.value, user: user.value, promotionalCode: promotionalCode.value, deliveryTime: deliveryTime.value, backet: backet.value }),
-        mode: 'cors'
-    });
-    const data = await response.json();
-
-    provide("orderData", data)
-    router.push({
-        path: '/',
-    })
-    console.log(data)
+const clearBacketStore = () => {
+  backet.value = [...[]];
+  countProductInBacket.value = 0
+  costOrder.value = 0
+  discountOrder.value = 0
+  promotionalCode.value = ""
 }
+console.log(order.value)
 
 </script>
 <template>
-    <div class="order-view--container">
-        <div class="left-side--container">
-            <PageTitle>Заказ на доставку</PageTitle>
-            <ChangeAddres ref="addres" />
-            <div class="promotional--container">
-                <p class="promotional--text">Промокод</p>
-                <PromotionalCode />
-            </div>
-            <PaymentMethods />
-            <Bonus />
-            <div class="order-btn--container">
-                <RouteTo class="order-view__rout-to" text="Назад в корзину" url="/backet" />
-                <Btn @click="orderDelivery" view="addres-or-order">
-                    <ContentBtn view="content-type--apply-order">
-                        <template v-slot:count>{{ costOrder - (costOrder * discountOrder * 0.01) }}</template>
-                        <template v-slot:text>Оформить заказ на</template>
-                    </ContentBtn>
-                </Btn>
-            </div>
-        </div>
-        <div class="right-side--container">
-            <OrderСomposition />
-        </div>
+  <div class="order" v-if="order">
+    <div class="order__left-side">
+      <PageTitle>Ваш заказ</PageTitle>
+      <GratitudeOrder :clearBacketStore="clearBacketStore" :date="order?.order.created_at" :id="order?.order.id" />
+      <InfoOrder :clearBacketStore="clearBacketStore" />
     </div>
+    <div class="order__right-side">
+      <OrderСomposition v-if="order.promotional_code" :backet="order.products"
+        :costOrder="order.order.cost / (1 - order.promotional_code.discount_percentage * 0.01)"
+        :totalCostOrder="order.order.cost" :discountOrder="order.promotional_code.discount_percentage" />
+      <OrderСomposition v-else :backet="order.products" :costOrder="order.order.cost"
+        :totalCostOrder="order.order.cost" />
+    </div>
+  </div>
 </template>
-<style scoped>
-.order-btn--container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    margin: 51px 0 85px 0;
+<style>
+.order__right-side {
+  margin-top: 128px;
 }
 
-.promotional--container {
-    display: flex;
-    flex-direction: column;
-    gap: 27px;
-    margin-top: 40px;
+.order {
+  width: 100%;
+  max-width: 1110px;
+  padding: 0 10px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-between;
 }
 
-.promotional--text {
-    color: var(--yellow);
-    font-family: "Montserrat-SemiBold", sans-serif;
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 17px;
+.order__left-side {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.left-side--container {
-    width: 100%;
-    max-width: 730px;
-}
-
-.right-side--container {
-    width: 100%;
-    margin-top: 128px;
-    max-width: 337px;
-}
-
-.order-view--container {
-    width: 100%;
-    max-width: 1110px;
-    padding: 0 10px;
-    margin: 0 auto;
-
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 44px;
-}
-
-@media (max-width:1110px) {
-    .left-side--container {
-        margin: 0 auto;
-    }
-
-    .right-side--container {
-        margin: 0 auto;
-    }
-
-    .order-btn--container {
-        flex-direction: column;
-        justify-content: center;
-        gap: 14px;
-    }
-
-    .order-view__rout-to {
-        order: 2;
-    }
+.order__right-side {
+  width: 337px;
 }
 </style>

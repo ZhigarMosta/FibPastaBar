@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import OrderСompositionItem from "@/components/shared/OrderСompositionItem.vue"
-import { useBacketStore } from "@/stores/backet";
-import { storeToRefs } from "pinia";
-const store = useBacketStore()
+import { useBacketStore, type BacketInterface } from "@/stores/backet";
 
-const { backet } = storeToRefs(store)
-
+const {
+    backet,
+} = defineProps<{
+    backet: BacketInterface[],
+}>();
 </script>
 <template>
     <div class="order-composition-list">

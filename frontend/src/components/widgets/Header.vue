@@ -105,8 +105,8 @@ const onLogout = async () => {
                 <div class="bottom-header--container">
                     <div class="menu--container">
                         <a v-for="i of data?.navigation" class="menu--text" :href='"#" + i.anchorRef'>{{ i.name }}</a>
-                        <RouterLink class="menu--text" to="/">Home</RouterLink>
-                        <RouterLink class="menu--text" to="/about">about</RouterLink>
+                        <RouterLink class="menu--text" to="/">Главная</RouterLink>
+                        <RouterLink class="menu--text" v-if="user.id" to="/orders">Заказы</RouterLink>
                     </div>
                     <div class="login-and-backet--container">
                         <button v-if="!userIsLogin" class="login--btn"

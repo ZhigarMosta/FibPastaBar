@@ -83,7 +83,8 @@ const onLogout = async () => {
                             <div class="circle"
                                 :class="{ 'circle--active': layoutComponents?.progress === 'orderAccepted' }">3</div>
                             <p class="progress-text"
-                                :class="{ 'progress-text--active': layoutComponents?.progress === 'orderAccepted' }">Заказ
+                                :class="{ 'progress-text--active': layoutComponents?.progress === 'orderAccepted' }">
+                                Заказ
                                 принят</p>
                         </div>
                     </div>
@@ -96,8 +97,8 @@ const onLogout = async () => {
                 <div class="bottom-header--container">
                     <div class="menu--container">
                         <a v-for="i of data?.navigation" class="menu--text" :href='"#" + i.anchorRef'>{{ i.name }}</a>
-                        <RouterLink class="menu--text" to="/">Home</RouterLink>
-                        <RouterLink class="menu--text" to="/about">about</RouterLink>
+                        <RouterLink class="menu--text" to="/">Главная</RouterLink>
+                        <RouterLink class="menu--text" to="/orders">Заказы</RouterLink>
                     </div>
                     <div class="login-and-backet--container">
                         <button v-if="!userIsLogin" class="login--btn"
@@ -114,10 +115,11 @@ const onLogout = async () => {
     </header>
 </template>
 <style scoped>
-.logo{
+.logo {
     width: 82.0px;
     height: 60.6px;
 }
+
 .circle {
     width: 36px;
     height: 36px;

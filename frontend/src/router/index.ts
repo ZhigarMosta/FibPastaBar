@@ -11,9 +11,9 @@ const router = createRouter({
       meta:{layoutHeader:'default'}
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
+      path: '/orders',
+      name: 'orders',
+      component: () => import('../views/OrdersView.vue'),
       meta:{layoutHeader:'default'}
     },
     {
@@ -23,14 +23,19 @@ const router = createRouter({
       meta:{layoutHeader:'backet',progress:'backet'}
     },
     {
+      path: '/confim_order',
+      name: 'confim_order',
+      component: () => import('../views/ConfimOrderView.vue'),
+      meta:{layoutHeader:'backet',progress:'orderDesign'}
+    },
+    {
       path: '/order',
       name: 'order',
       component: () => import('../views/OrderView.vue'),
-      meta:{layoutHeader:'backet',progress:'orderDesign'}
+      meta:{layoutHeader:'backet',progress:'orderAccepted'}
     },
   ],
 })
-enum progress{}
 declare module 'vue-router' {
   interface RouteMeta {
     layoutHeader: "backet" | "default",

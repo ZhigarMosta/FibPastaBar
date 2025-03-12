@@ -3,15 +3,17 @@ import { ref } from 'vue';
 
 const {
     view,
+    fn
 } = defineProps<{
     view: "pizza" | "stock" | "addres-or-order" | "send" | "look" | "call" | "footer";
+    fn?: () => void
 }>();
 const styleBtn = ref(`${view}--btn`)
 const styleText = ref(`${view}--text`);
 
 </script>
 <template>
-    <button :class="styleBtn" class="container">
+    <button @click="fn" :class="styleBtn" class="container">
         <div :class="styleText">
             <slot></slot>
         </div>

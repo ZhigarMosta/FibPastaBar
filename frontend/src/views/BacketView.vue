@@ -34,7 +34,7 @@ const { costOrder, discountOrder } = storeToRefs(store)
             </div>
             <div class="btn--container">
                 <RouteTo class="btn-back" text="Вернуться в магазин" url="/" />
-                <RouterLink class="btn--order" to="/order">
+                <RouterLink class="btn--order" to="/confim_order">
                     <p class="btn-order--text">
                         Оформить заказ
                     </p>

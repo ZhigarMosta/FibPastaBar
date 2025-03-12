@@ -36,7 +36,7 @@ export const useBacketStore = defineStore('backet', () => {
   const countProductInBacket = useLocalStorageRef<number>("countProductInBacket",0)
   const costOrder = useLocalStorageRef<number>("costOrder",0)
   const discountOrder = useLocalStorageRef<number>("discountOrder",0)
-  const promotionalCode = useLocalStorageRef<string>("promotionalCode","")
+  const promotionalCode = useLocalStorageRef<string|number>("promotionalCode","")
   
   const delivery = useLocalStorageRef<AddresInterface>("delivery",{addres:{apartment:"",code:"",commentAddres:"",entrance:"",floor:"",house:"",nameAddres:"",sity:""},pickup:false})
   const deliveryTime = useLocalStorageRef<string>("deliveryTime","Побыстрее")
