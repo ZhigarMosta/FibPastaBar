@@ -11,7 +11,8 @@ const {
     cost,
     buyer_name,
     buyer_email,
-    created_at
+    created_at,
+    status
 } = defineProps<{
 
     id: number
@@ -21,7 +22,8 @@ const {
     cost: number,
     buyer_name: string,
     buyer_email: string,
-    created_at: string
+    created_at: string,
+    status:string
 
 }>();
 
@@ -49,21 +51,25 @@ const openOrder = async () => {
             <p class="order-item__info-title">Номер</p>
             <p class="order-item__info-text">{{ id }}</p>
         </div>
-        <div class="order-item__info-container">
+        <div class="order-item__info-container" v-if="addres_name_addres">
             <p class="order-item__info-title">Имя адреса</p>
-            <p class="order-item__info-text order-item__info-text--yellow">{{ addres_name_addres }}</p>
+            <p class="order-item__info-text order-item__info-text--yellow" >{{ addres_name_addres }}</p>
         </div>
-        <div class="order-item__info-container">
+        <div class="order-item__info-container" v-if="addres_sity">
             <p class="order-item__info-title">Город и улица</p>
             <p class="order-item__info-text">{{ addres_sity }}</p>
         </div>
-        <div class="order-item__info-container">
+        <div class="order-item__info-container" v-if="addres_house">
             <p class="order-item__info-title">Дом</p>
             <p class="order-item__info-text">{{ addres_house }}</p>
         </div>
         <div class="order-item__info-container">
             <p class="order-item__info-title">Цена</p>
             <p class="order-item__info-text order-item__info-text--yellow">{{ cost }}</p>
+        </div>
+        <div class="order-item__info-container" v-if="!addres_name_addres && !addres_sity && !addres_house">
+            <p class="order-item__info-title">Доставка</p>
+            <p class="order-item__info-text order-item__info-text--yellow">Самовывоз</p>
         </div>
         <div class="order-item__info-container">
             <p class="order-item__info-title">Имя</p>
@@ -76,6 +82,10 @@ const openOrder = async () => {
         <div class="order-item__info-container">
             <p class="order-item__info-title">Дата</p>
             <p class="order-item__info-text">{{ created_at }}</p>
+        </div>
+        <div class="order-item__info-container">
+            <p class="order-item__info-title">Статус</p>
+            <p class="order-item__info-text">{{ status }}</p>
         </div>
     </button>
 </template>

@@ -27,8 +27,8 @@ const onPromotionalCodeActive = handleSubmit(async values => {
     });
 
     const data = await response.json();
-
-    if (data.message.includes("Not found promotional code")) {
+    
+    if (data.message[0].includes("promotional code no found")) {
         errorNotFound.value = "Промокод не найден"
         return
     }
@@ -50,7 +50,6 @@ const onPromotionalCodeActive = handleSubmit(async values => {
         promotionalCode.value = data.id
     }
 
-    console.log(data)
 });
 </script>
 <template>
