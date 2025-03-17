@@ -6,51 +6,33 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\PromotionalCodes;
+use App\Request\PromotionalCodesRequest;
 
-function checkToNull($arrKey,$data,$table){
-    foreach ($arrKey as $key) {
-        if ($data[$key]===null) {
-            return[
-                'success' => false,
-                'message' => "{$key} can not be null",
-                'errors' => $table->getMessages()
-            ];
-        }
-        else{
-            $table->assign(["{$key}" => $data[$key]]);
-        }
-    }
-}
-
-function generateCode($length) {
-    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    $code = '';
-    $characterCount = strlen($characters);
-    
-    for ($i = 0; $i < $length; $i++) {
-        $index = mt_rand(0, $characterCount - 1);
-        $code .= $characters[$index];
-    }
-    
-    return $code;
-}
 
 class PromotionalCodesController extends BaseController
 {
     public function create(){
         $data = $this->request->getPost();
         $promotionalCode = new PromotionalCodes();
-        
-        $arrDataKeys =['valid_until','discount_percentage']; 
-        checkToNull($arrDataKeys ,$data,$promotionalCode);
+        $request = new PromotionalCodesRequest();
 
-        if(($data["is_active"]!==null)){
+        if(!$request->validate($data)){
+            return [
+                'success' => false,
+                'errors' => $request->getErrors()
+            ];
+        }
+
+        $promotionalCode->assign(['valid_until' => $data['valid_until']]);
+        $promotionalCode->assign(['discount_percentage' => $data['discount_percentage']]);
+
+
+        if($request->validateIsActive($data)){
             $promotionalCode->assign(['is_active' => $data['is_active']]);
         }
 
-        if(empty($data["code"])){
-            $code = generateCode(10);
-            $promotionalCode->assign(['code' => $code]);
+        if(!$request->validateCode($data)){
+            $promotionalCode->assign(['code' => $request->codeGenerate()]);
         }
         else{
             $promotionalCode->assign(['code' => $data['code']]);
@@ -83,10 +65,11 @@ class PromotionalCodesController extends BaseController
         $data = $this->request->getPut();
         $promotionalCodes = PromotionalCodes::findFirst($id);
 
-        if(empty($promotionalCodes)){
+        $request = new PromotionalCodesRequest();
+        if(!$request->promotionalCodeIsFound($promotionalCodes)){
             return[
                 'success' => false,
-                'message' => "Promotional codes not found with id {$id}",
+                'message' => $request->getErrors()
             ];
         }
 
@@ -114,11 +97,12 @@ class PromotionalCodesController extends BaseController
 
     public function delete(int $id){
         $promotionalCode = PromotionalCodes::findFirst($id);
+        $request = new PromotionalCodesRequest();
 
-        if(empty($promotionalCode)){
+        if(!$request->promotionalCodeIsFound($promotionalCode)){
             return[
                 'success' => false,
-                'message' => "Promotional codes not found with id {$id}",
+                'message' => $request->getErrors()
             ];
         }
 
@@ -139,6 +123,7 @@ class PromotionalCodesController extends BaseController
 
     public function activate(){
         $data = $this->request->getJsonRawBody(true);
+        $request = new PromotionalCodesRequest();
 
         $promotionalCode = PromotionalCodes::findFirst([
             "conditions"=> "code = :code:",
@@ -146,16 +131,17 @@ class PromotionalCodesController extends BaseController
             'code'=> $data['code'],
         ],]);
         
-        if(empty($promotionalCode)){
+        if(!$request->promotionalCodeIsFound($promotionalCode)){
             return[
                 'success' => false,
-                'message' => "Not found promotional code with code: {$data['code']}"
+                'message' => $request->getErrors()
             ];
         }
 
-        $today = date("Y-m-d H:i:s");
-    
-        if($today > $promotionalCode->valid_until){
+        $today = strtotime("now");
+        $valid_until =strtotime($promotionalCode->valid_until);
+
+        if($today > $valid_until){
             return[
                 'success' => false,
                 'message' => "Promotional сode expired"
@@ -172,7 +158,7 @@ class PromotionalCodesController extends BaseController
             'success' => true,
             'message' => "discount actived",
             'discount' => $promotionalCode->discount_percentage,
-            'code' => $promotionalCode->code
+            'id' => $promotionalCode->id
         ];
        
     }

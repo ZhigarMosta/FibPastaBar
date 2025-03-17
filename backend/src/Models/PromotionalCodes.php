@@ -16,4 +16,9 @@ class PromotionalCodes extends BaseModel
     {
         $this->setSource("PromotionalCodes");
     }
+
+    public function beforeCreate():void
+    {
+        parent::beforeCreate();
+    }
 }

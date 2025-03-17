@@ -7,6 +7,7 @@ namespace App;
 use App\Controllers\AuthController;
 use App\Controllers\CategoryController;
 use App\Controllers\HeaderController;
+use App\Controllers\OrederController;
 use App\Controllers\ProductController;
 use App\Middlewares\AuthMiddleware;
 use App\Middlewares\ResponseMiddleware;
@@ -97,12 +98,20 @@ final class Application
         $user->post('/name/change', 'changeName');
         $user->post('/email/change', 'changeEmail');
 
+        $order = new MicroCollection();
+        $order->setHandler(OrederController::class,true);
+        $order->setPrefix('/api/order');
+        $order->post('/', 'create');
+        $order->post('/list_by_user_id', 'getOrderListByUserId');
+        $order->get('/{id}', 'getOrder');
+
         $app->mount($category);
         $app->mount($product);
         $app->mount($header);
         $app->mount($registration);
         $app->mount($promotionalCode);
         $app->mount($user);
+        $app->mount($order);
         $app->notFound(fn()=>$app->response->setStatusCode(404)->send());
     }
 }
